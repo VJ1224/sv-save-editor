@@ -3,54 +3,49 @@
 #include <vector>
 #include "tinyxml2.cpp"
 #include "tinyxml2.h"
-#include "tools.hpp"
 
 using namespace std;
 using namespace tinyxml2;
-using namespace tools;
-
 
 XMLDocument doc;
 XMLElement* root;
 XMLElement* player;
 
-void printFarmer();
-void printDate();
-void printMoney();
-void printPlaytime();
-void printSkills();
+void getFile();
+string getName();
+string getSex();
+string getCurrentMoney();
+string getMoneyEarned();
+string getPlayTime();
+string getDate();
+string getFarmingSkill();
+string getMiningSkill();
+string getCombatSkill();
+string getFishingSkill();
+string getForagingSkill();
 
-int main(void)
-{
-    cout << endl << "Stardew Valley" << endl;
-   
+namespace sveditor {
+void getFile() {
     doc.LoadFile("data.xml");
     root = doc.FirstChildElement("SaveGame");
     player = root->FirstChildElement("player");
-    
-    printFarmer();
-    printPlaytime();
-    printDate();
-    printMoney();
-    printSkills();
-        
-    return 0;
 }
 
-void printFarmer() {
+string getName() {
     XMLElement* name = player->FirstChildElement("name");
-    cout << "Name: " << name->GetText() << endl;
+    return name->GetText();
+}
 
+string getSex() {
     XMLElement* sex = player->FirstChildElement("isMale");
-    if (sex->GetText() == "true") {
-        cout << "Sex: Male" << endl << endl;
+    if (strcmp(sex->GetText(),"true")) {
+        return "Male";
     } else {
-        cout << "Sex: Female" << endl << endl;
+        return "Female";
     }
 }
 
-
-void printDate() {
+string getDate() {
     XMLElement* day = player->FirstChildElement("dayOfMonthForSaveGame");
     XMLElement* season = player->FirstChildElement("seasonForSaveGame");
     XMLElement* year = player->FirstChildElement("yearForSaveGame");
@@ -64,12 +59,12 @@ void printDate() {
         case 4: seasonName = "Winter"; break;
     }
 
-    cout << "Date: " << "Day " << day->GetText() << " of " << seasonName << ", Year " << year->GetText() << endl << endl;
+    return "Day " + string(day->GetText()) + " of " + seasonName + ", Year " + year->GetText();
 }
 
-void printPlaytime() {
+string getPlaytime() {
     XMLElement* millisecondsPlayed = player->FirstChildElement("millisecondsPlayed");
-    
+
     long milli = atol(millisecondsPlayed->GetText());
 
     int seconds = milli / 1000;
@@ -81,30 +76,42 @@ void printPlaytime() {
     int hours = minutes / 60;
     minutes %= 60;
 
-    cout << "Playtime: " << hours << "h " << minutes << "m " << seconds << "s" << endl << endl;
+    return to_string(hours) + "h " + to_string(minutes) + "m " + to_string(seconds) + "s";
 }
 
-void printMoney() {
+string getCurrentMoney() {
     XMLElement* money = player->FirstChildElement("money");
-    cout << "Current Money: " << formatNumber(money->GetText()) << "g" << endl;
+    return money->GetText();
 
-    XMLElement* totalMoneyEarned = player->FirstChildElement("totalMoneyEarned");
-    cout << "Total Money Earned: " << formatNumber(totalMoneyEarned->GetText()) << "g\n" << endl;
 }
 
+string getMoneyEarned() {
+    XMLElement* totalMoneyEarned = player->FirstChildElement("totalMoneyEarned");
+    return totalMoneyEarned->GetText();
+}
 
-
-void printSkills() {
+string getFarmingLevel() {
     XMLElement* farmingLevel = player->FirstChildElement("farmingLevel");
-    XMLElement* miningLevel = player->FirstChildElement("miningLevel");
-    XMLElement* combatLevel = player->FirstChildElement("combatLevel");
-    XMLElement* foragingLevel = player->FirstChildElement("foragingLevel");
-    XMLElement* fishingLevel = player->FirstChildElement("fishingLevel");
+    return string(farmingLevel->GetText());
+}
 
-    cout << "Skills:" << endl;
-    cout << "Farming: Lvl " << farmingLevel->GetText() << endl; 
-    cout << "Mining: Lvl " << miningLevel->GetText() << endl; 
-    cout << "Combat: Lvl " << combatLevel->GetText() << endl; 
-    cout << "Foraging: Lvl " << foragingLevel->GetText() << endl; 
-    cout << "Fishing: Lvl " << fishingLevel->GetText() << endl; 
+string getMiningLevel() {
+    XMLElement* miningLevel = player->FirstChildElement("miningLevel");
+    return string(miningLevel->GetText());
+}
+
+string getCombatLevel() {
+    XMLElement* combatLevel = player->FirstChildElement("combatLevel");
+    return string(combatLevel->GetText());
+}
+
+string getForagingLevel() {
+    XMLElement* foragingLevel = player->FirstChildElement("foragingLevel");
+    return string(foragingLevel->GetText());
+}
+
+string getFishingLevel() {
+    XMLElement* fishingLevel = player->FirstChildElement("fishingLevel");
+    return string(fishingLevel->GetText());
+}
 }
