@@ -1,9 +1,25 @@
 #include "sveditor.cpp"
 #include "tools.hpp"
-#include "json.hpp"
+#include "libs/crow_all.h"
+
+string toJSON();
 
 int main() {
     sveditor::getFile();
+    crow::SimpleApp app;
+    
+    CROW_ROUTE(app, "/")([](){
+        return "Hello " + sveditor::getName();
+    });
+
+    CROW_ROUTE(app, "/profile")([](){
+        return toJSON();
+    });
+
+    app.port(18080).multithreaded().run();
+}
+
+string toJSON() {
     json::JSON obj;
     obj["name"] = sveditor::getName();
     obj["sex"] = sveditor::getSex();
@@ -17,5 +33,5 @@ int main() {
     obj["skills"]["foragingLevel"] = sveditor::getForagingLevel();
     obj["skills"]["fishingLevel"] = sveditor::getFishingLevel();
 
-    std::cout << obj << std::endl;
+    return obj.dump();
 }

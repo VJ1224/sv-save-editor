@@ -1,8 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include "tinyxml2.cpp"
-#include "tinyxml2.h"
+#include "libs/tinyxml2.cpp"
+#include "libs/tinyxml2.h"
+#include "libs/json.hpp"
 
 using namespace std;
 using namespace tinyxml2;
@@ -12,17 +13,21 @@ XMLElement* root;
 XMLElement* player;
 
 void getFile();
+
 string getName();
 string getSex();
+
 string getCurrentMoney();
 string getMoneyEarned();
-string getPlayTime();
+
+string getPlaytime();
 string getDate();
-string getFarmingSkill();
-string getMiningSkill();
-string getCombatSkill();
-string getFishingSkill();
-string getForagingSkill();
+
+string getFarmingLevel();
+string getMiningLevel();
+string getCombatLevel();
+string getFishingLevel();
+string getForagingLevel();
 
 namespace sveditor {
 void getFile() {

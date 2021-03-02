@@ -1,4 +1,3 @@
 .vscode
 data.xml
-*sveditor
-*sveditor.out
+*.out
