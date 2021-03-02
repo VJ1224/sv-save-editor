@@ -2,7 +2,7 @@
 #include "tools.hpp"
 #include "libs/crow_all.h"
 
-string toJSON();
+crow::json::wvalue toJSON();
 
 int main() {
     sveditor::getFile();
@@ -17,10 +17,13 @@ int main() {
     });
 
     app.port(18080).multithreaded().run();
+
+    // release: g++ main.cpp -lpthread -lboost_system -lz -o sveditor.out
+    // debug: g++ main.cpp -ggdb -lpthread -lboost_system -lz -D CROW_ENABLE_DEBUG -o sveditor.out
 }
 
-string toJSON() {
-    json::JSON obj;
+crow::json::wvalue toJSON() {
+    crow::json::wvalue obj;
     obj["name"] = sveditor::getName();
     obj["sex"] = sveditor::getSex();
     obj["date"] = sveditor::getDate();
@@ -33,5 +36,5 @@ string toJSON() {
     obj["skills"]["foragingLevel"] = sveditor::getForagingLevel();
     obj["skills"]["fishingLevel"] = sveditor::getFishingLevel();
 
-    return obj.dump();
+    return obj;
 }
