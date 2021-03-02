@@ -33,13 +33,6 @@ int main(void)
     printDate();
     printMoney();
     printSkills();
-
-    int newMoney;
-    cout << "Enter money: ";
-    cin >> newMoney;
-    XMLElement* money = player->FirstChildElement("money");
-    money->SetText(newMoney);
-    doc.SaveFile("sv.xml");
         
     return 0;
 }
