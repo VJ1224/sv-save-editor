@@ -9,7 +9,7 @@ XMLDocument doc;
 XMLElement* root;
 XMLElement* player;
 
-void getFile();
+void setFile();
 
 string getName();
 string getSex();
@@ -27,8 +27,8 @@ string getFishingLevel();
 string getForagingLevel();
 
 namespace sveditor {
-void getFile() {
-    doc.LoadFile("data.xml");
+void setFile(string file) {
+    doc.Parse(file.c_str());
     root = doc.FirstChildElement("SaveGame");
     player = root->FirstChildElement("player");
 }
@@ -55,10 +55,10 @@ string getDate() {
     const char* seasonName;
     int seasonValue = atoi(season->GetText());
     switch(seasonValue) {
-        case 1: seasonName = "Spring"; break;
-        case 2: seasonName = "Summer"; break;
-        case 3: seasonName = "Fall"; break;
-        case 4: seasonName = "Winter"; break;
+        case 0: seasonName = "Spring"; break;
+        case 1: seasonName = "Summer"; break;
+        case 2: seasonName = "Fall"; break;
+        case 3: seasonName = "Winter"; break;
     }
 
     return "Day " + string(day->GetText()) + " of " + seasonName + ", Year " + year->GetText();

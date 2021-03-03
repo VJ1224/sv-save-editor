@@ -5,15 +5,22 @@
 crow::json::wvalue toJSON();
 
 int main() {
-    sveditor::getFile();
     crow::SimpleApp app;
+    crow::mustache::set_base(".");
     
     CROW_ROUTE(app, "/")([](){
-        return "Hello " + sveditor::getName();
+        return crow::mustache::load("html/index.html").render();
     });
 
     CROW_ROUTE(app, "/profile")([](){
         return toJSON();
+    });
+
+    CROW_ROUTE(app, "/upload").methods("POST"_method)([](const crow::request& req){
+        string content = req.body;
+        content = content.substr(8);
+        sveditor::setFile(content);
+        return 1;
     });
 
     app.port(18080).multithreaded().run();
