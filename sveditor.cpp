@@ -9,7 +9,7 @@ XMLDocument doc;
 XMLElement* root;
 XMLElement* player;
 
-void setFile();
+void setFile(string);
 
 string getName();
 string getSex();
@@ -40,7 +40,7 @@ string getName() {
 
 string getSex() {
     XMLElement* sex = player->FirstChildElement("isMale");
-    if (strcmp(sex->GetText(),"true")) {
+    if (strcmp(sex->GetText(),"true") == 0) {
         return "Male";
     } else {
         return "Female";

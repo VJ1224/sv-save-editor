@@ -13,14 +13,29 @@ int main() {
     });
 
     CROW_ROUTE(app, "/profile")([](){
+        crow::mustache::context ctx;
+        ctx["name"] = sveditor::getName();
+        ctx["sex"] = sveditor::getSex();
+        ctx["date"] = sveditor::getDate();
+        ctx["playtime"] = sveditor::getPlaytime();
+        ctx["currentMoney"] = sveditor::getCurrentMoney();
+        ctx["moneyEarned"] = sveditor::getMoneyEarned();
+        ctx["skills"]["farmingLevel"] = sveditor::getFarmingLevel();
+        ctx["skills"]["combatLevel"] = sveditor::getCombatLevel();
+        ctx["skills"]["miningLevel"] = sveditor::getMiningLevel();
+        ctx["skills"]["foragingLevel"] = sveditor::getForagingLevel();
+        ctx["skills"]["fishingLevel"] = sveditor::getFishingLevel();
+
+        return crow::mustache::load("html/profile.html").render(ctx);
+    });
+
+    CROW_ROUTE(app, "/json")([](){
         return toJSON();
     });
 
     CROW_ROUTE(app, "/upload").methods("POST"_method)([](const crow::request& req){
-        string content = req.body;
-        content = content.substr(8);
-        sveditor::setFile(content);
-        return 1;
+        sveditor::setFile(req.body);
+        return 200;
     });
 
     app.port(18080).multithreaded().run();

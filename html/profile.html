@@ -9,13 +9,27 @@
     <title>Stardew Valley Save Editor</title>
   </head>
   <body>
-    <h1 class="m-3">Stardew Valley Save Editor</h1>
-    <form class="m-3" id="save-form" onsubmit="readFile(event)">
-        <div class="mb-3">
-          <input type="file" class="form-control-file" id="save-file">
-        </div>
-        <button type="submit"  class="btn btn-primary">Submit</button>
-    </form>
+    <h1 class="m-3">Stardew Valley Save Profile</h1>
+
+    <p class="m-3">
+        Name: {{name}} <br>
+        Sex: {{sex}} <br> <br>
+        Date: {{date}} <br>
+        Playtime: {{playtime}} <br> <br>
+        Current Money: {{currentMoney}} <br>
+        Money Earned: {{moneyEarned}} <br> <br>
+
+        {{#skills}}
+        Skills: <br>
+        <ul>
+          <li>Farming: {{farmingLevel}}</li>
+          <li>Mining: {{miningLevel}}</li>
+          <li>Combat: {{combatLevel}}</li>
+          <li>Foraging: {{foragingLevel}}</li>
+          <li>Fishing: {{fishingLevel}}</li>
+        </ul>
+        {{/skills}}
+    </p>
 
     <script>
         function readFile(event) {
