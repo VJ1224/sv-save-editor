@@ -13,19 +13,7 @@ int main() {
     });
 
     CROW_ROUTE(app, "/profile")([](){
-        crow::mustache::context ctx;
-        ctx["name"] = sveditor::getName();
-        ctx["sex"] = sveditor::getSex();
-        ctx["date"] = sveditor::getDate();
-        ctx["playtime"] = sveditor::getPlaytime();
-        ctx["currentMoney"] = sveditor::getCurrentMoney();
-        ctx["moneyEarned"] = sveditor::getMoneyEarned();
-        ctx["skills"]["farmingLevel"] = sveditor::getFarmingLevel();
-        ctx["skills"]["combatLevel"] = sveditor::getCombatLevel();
-        ctx["skills"]["miningLevel"] = sveditor::getMiningLevel();
-        ctx["skills"]["foragingLevel"] = sveditor::getForagingLevel();
-        ctx["skills"]["fishingLevel"] = sveditor::getFishingLevel();
-
+        crow::mustache::context ctx = toJSON();
         return crow::mustache::load("html/profile.html").render(ctx);
     });
 
