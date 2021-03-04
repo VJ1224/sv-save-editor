@@ -26,6 +26,15 @@ int main() {
         return 200;
     });
 
+    CROW_ROUTE(app, "/edit").methods("POST"_method)([](const crow::request& req){
+        crow::json::rvalue data = crow::json::load(req.body);
+
+        if (data.has("name")) sveditor::setName(data["name"].s());
+        if (data.has("money")) sveditor::setMoney(data["money"].s());
+
+        return 200;
+    });
+
     app.port(18080).multithreaded().run();
 
     // release: g++ main.cpp -lpthread -lboost_system -lz -o sveditor.out

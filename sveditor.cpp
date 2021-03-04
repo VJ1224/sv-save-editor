@@ -10,6 +10,8 @@ XMLElement* root;
 XMLElement* player;
 
 void setFile(string);
+void setName(string);
+void setCurrentMoney(string);
 
 string getName();
 string getSex();
@@ -33,9 +35,16 @@ void setFile(string file) {
     player = root->FirstChildElement("player");
 }
 
+void setName(string name) {
+    player->FirstChildElement("name")->SetText(name.c_str());
+}
+
+void setMoney(string money) {
+    player->FirstChildElement("money")->SetText(money.c_str());
+}
+
 string getName() {
-    XMLElement* name = player->FirstChildElement("name");
-    return name->GetText();
+    return player->FirstChildElement("name")->GetText();
 }
 
 string getSex() {
@@ -82,38 +91,31 @@ string getPlaytime() {
 }
 
 string getCurrentMoney() {
-    XMLElement* money = player->FirstChildElement("money");
-    return money->GetText();
+    return player->FirstChildElement("money")->GetText();
 
 }
 
 string getMoneyEarned() {
-    XMLElement* totalMoneyEarned = player->FirstChildElement("totalMoneyEarned");
-    return totalMoneyEarned->GetText();
+    return player->FirstChildElement("totalMoneyEarned")->GetText();
 }
 
 string getFarmingLevel() {
-    XMLElement* farmingLevel = player->FirstChildElement("farmingLevel");
-    return string(farmingLevel->GetText());
+    return player->FirstChildElement("farmingLevel")->GetText();
 }
 
 string getMiningLevel() {
-    XMLElement* miningLevel = player->FirstChildElement("miningLevel");
-    return string(miningLevel->GetText());
+    return player->FirstChildElement("miningLevel")->GetText();
 }
 
 string getCombatLevel() {
-    XMLElement* combatLevel = player->FirstChildElement("combatLevel");
-    return string(combatLevel->GetText());
+    return player->FirstChildElement("combatLevel")->GetText();
 }
 
 string getForagingLevel() {
-    XMLElement* foragingLevel = player->FirstChildElement("foragingLevel");
-    return string(foragingLevel->GetText());
+    return player->FirstChildElement("foragingLevel")->GetText();
 }
 
 string getFishingLevel() {
-    XMLElement* fishingLevel = player->FirstChildElement("fishingLevel");
-    return string(fishingLevel->GetText());
+    return player->FirstChildElement("fishingLevel")->GetText();
 }
 }
