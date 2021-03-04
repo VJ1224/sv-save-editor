@@ -5,16 +5,13 @@
 using namespace std;
 using namespace tinyxml2;
 
-XMLDocument doc;
-XMLElement* root;
-XMLElement* player;
-
 void setFile(string);
-void setName(string);
-void setCurrentMoney(string);
+void setPlayerAttribute(string, string);
 
+bool fileLoaded();
 string getName();
 string getSex();
+string getAnimal();
 
 string getCurrentMoney();
 string getMoneyEarned();
@@ -29,22 +26,19 @@ string getFishingLevel();
 string getForagingLevel();
 
 namespace sveditor {
+
+XMLDocument doc;
+XMLElement* root = NULL;
+XMLElement* player = NULL;
+
 void setFile(string file) {
     doc.Parse(file.c_str());
     root = doc.FirstChildElement("SaveGame");
     player = root->FirstChildElement("player");
 }
 
-void setName(string name) {
-    player->FirstChildElement("name")->SetText(name.c_str());
-}
-
-void setMoney(string money) {
-    player->FirstChildElement("money")->SetText(money.c_str());
-}
-
-string getName() {
-    return player->FirstChildElement("name")->GetText();
+void setPlayerAttribute(const char* attr, string value) {
+    player->FirstChildElement(attr)->SetText(value.c_str());
 }
 
 string getSex() {
@@ -53,6 +47,15 @@ string getSex() {
         return "Male";
     } else {
         return "Female";
+    }
+}
+
+string getAnimal() {
+    XMLElement* animal = player->FirstChildElement("catPerson");
+    if (strcmp(animal->GetText(),"true") == 0) {
+        return "Cat";
+    } else {
+        return "Dog";
     }
 }
 
@@ -90,32 +93,7 @@ string getPlaytime() {
     return to_string(hours) + "h " + to_string(minutes) + "m " + to_string(seconds) + "s";
 }
 
-string getCurrentMoney() {
-    return player->FirstChildElement("money")->GetText();
-
-}
-
-string getMoneyEarned() {
-    return player->FirstChildElement("totalMoneyEarned")->GetText();
-}
-
-string getFarmingLevel() {
-    return player->FirstChildElement("farmingLevel")->GetText();
-}
-
-string getMiningLevel() {
-    return player->FirstChildElement("miningLevel")->GetText();
-}
-
-string getCombatLevel() {
-    return player->FirstChildElement("combatLevel")->GetText();
-}
-
-string getForagingLevel() {
-    return player->FirstChildElement("foragingLevel")->GetText();
-}
-
-string getFishingLevel() {
-    return player->FirstChildElement("fishingLevel")->GetText();
+string getPlayerAttribute(const char* attr) {
+    return player->FirstChildElement(attr)->GetText();
 }
 }

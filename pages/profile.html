@@ -11,14 +11,15 @@
 </head>
 
 <body>
-    <section class="login-clean">
+    <section class="login-clean" style="padding-top: 20.8px;">
         <h1 style="margin-right: 20.8px;margin-left: 20.8px;">Stardew Valley Save Editor</h1>
         <div class="container" style="margin-left: 20.8px;">
             <div class="row">
                 <div class="col-md-6">
                     <p>
                         Name: {{name}} <br>
-                        Sex: {{sex}} <br> <br>
+                        Sex: {{sex}} <br> 
+                        Animal: {{animal}} <br> <br>
                         Date: {{date}} <br>
                         Playtime: {{playtime}} <br> <br>
                         Current Money: {{currentMoney}} <br>
@@ -38,8 +39,28 @@
                 </div>
                 <div class="col-md-6">
                     <form method="post" onsubmit="sendData(event)">
-                        <div class="form-group"><label>Edit Name:</label><input class="form-control" type="text" id="sv-name"></div>
-                        <div class="form-group"><label>Edit Money:</label><input class="form-control" type="number" id="sv-money"></div>
+                        <div class="form-group">
+                            <label>Edit Name:</label>
+                            <input class="form-control" type="text" id="sv-name">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Edit Money:</label>
+                            <input class="form-control" type="number" id="sv-money">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Edit Sex:</label>
+                            <div class="form-check"><input type="radio" class="form-check-input" id="sv-sex1" name="sv-sex" value="male"/><label class="form-check-label" for="sv-sex1">Male</label></div>
+                            <div class="form-check"><input type="radio" class="form-check-input" id="sv-sex2" name="sv-sex" value="female"/><label class="form-check-label" for="sv-sex2">Female</label></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Edit Animal:</label>
+                            <div class="form-check"><input type="radio" class="form-check-input" id="sv-animal1" name="sv-animal" value="cat"/><label class="form-check-label" for="sv-animal1">Cat</label></div>
+                            <div class="form-check"><input type="radio" class="form-check-input" id="sv-animal2" name="sv-animal" value="dog"/><label class="form-check-label" for="sv-animal2">Dog</label></div>
+                        </div>
+
                         <button class="btn btn-primary d-block w-100" type="submit" style="color: var(--bs-light);background: var(--bs-red);">Submit</button>
                     </form>
                 </div>
@@ -54,12 +75,34 @@
             let name = document.getElementById("sv-name").value;
             let money = document.getElementById("sv-money").value;
 
+            let male = document.getElementById("sv-sex1").checked;
+            let female = document.getElementById("sv-sex2").checked;
+
+            let cat = document.getElementById("sv-animal1").checked;
+            let dog = document.getElementById("sv-animal2").checked;
+
             if (name.length !== 0 || name.trim()) {
                 data["name"] = name;
             }
 
             if (money.length !== 0 || money.trim()) {
                 data["money"] = money;
+            }
+
+            if (male) {
+                data["sex"] = "true";
+            }
+
+            if (female) {
+                data["sex"] = "false";
+            }
+
+            if (cat) {
+                data["animal"] = "true";
+            }
+
+            if (dog) {
+                data["animal"] = "false";
             }
 
             fetch("/edit", {
