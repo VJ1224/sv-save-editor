@@ -9,12 +9,12 @@ int main() {
     crow::mustache::set_base(".");
     
     CROW_ROUTE(app, "/")([](){
-        return crow::mustache::load("html/index.html").render();
+        return crow::mustache::load("pages/index.html").render();
     });
 
     CROW_ROUTE(app, "/profile")([](){
         crow::mustache::context ctx = toJSON();
-        return crow::mustache::load("html/profile.html").render(ctx);
+        return crow::mustache::load("pages/profile.html").render(ctx);
     });
 
     CROW_ROUTE(app, "/json")([](){
