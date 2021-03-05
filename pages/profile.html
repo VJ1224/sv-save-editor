@@ -15,15 +15,22 @@
         <h1 style="margin-right: 20.8px;margin-left: 20.8px;">Stardew Valley Save Editor</h1>
         <div class="container" style="margin-left: 20.8px;">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col">
                     <p>
                         Name: {{name}} <br>
+                        Farm Name: {{farmName}} <br>
+                        Favourite Thing: {{favoriteThing}} <br>
                         Sex: {{sex}} <br> 
                         Animal: {{animal}} <br> <br>
+                        
                         Date: {{date}} <br>
                         Playtime: {{playtime}} <br> <br>
+
                         Current Money: {{currentMoney}} <br>
                         Money Earned: {{moneyEarned}} <br> <br>
+
+                        Max Health: {{maxHealth}} <br>
+                        Max Stamina: {{maxStamina}} <br> <br>
 
                         {{#skills}}
                         Skills: <br>
@@ -37,28 +44,56 @@
                         {{/skills}}
                     </p>
                 </div>
-                <div class="col-md-6">
+                <div class="col">
                     <form method="post" onsubmit="sendData(event)">
-                        <div class="form-group">
-                            <label>Edit Name:</label>
-                            <input class="form-control" type="text" id="sv-name">
+                        <div class="row">
+                            <div class="form-group col">
+                                <label>Edit Name:</label>
+                                <input class="form-control" type="text" id="sv-name">
+                            </div>
+
+                            <div class="form-group col">
+                                <label>Edit Farm Name:</label>
+                                <input class="form-control" type="text" id="sv-farm-name">
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label>Edit Money:</label>
-                            <input class="form-control" type="number" id="sv-money">
+                        <div class="row">
+                            <div class="form-group col">
+                                <label>Edit Favourite Thing:</label>
+                                <input class="form-control" type="text" id="sv-favorite-thing">
+                            </div>
+    
+                            <div class="form-group col">
+                                <label>Edit Money:</label>
+                                <input class="form-control" type="number" id="sv-money">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col">
+                                <label>Edit Health:</label>
+                                <input class="form-control" type="number" id="sv-health">
+                            </div>
+    
+                            <div class="form-group col">
+                                <label>Edit Stamina:</label>
+                                <input class="form-control" type="number" id="sv-stamina">
+                            </div>
                         </div>
                         
-                        <div class="form-group">
-                            <label>Edit Sex:</label>
-                            <div class="form-check"><input type="radio" class="form-check-input" id="sv-sex1" name="sv-sex" value="male"/><label class="form-check-label" for="sv-sex1">Male</label></div>
-                            <div class="form-check"><input type="radio" class="form-check-input" id="sv-sex2" name="sv-sex" value="female"/><label class="form-check-label" for="sv-sex2">Female</label></div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Edit Animal:</label>
-                            <div class="form-check"><input type="radio" class="form-check-input" id="sv-animal1" name="sv-animal" value="cat"/><label class="form-check-label" for="sv-animal1">Cat</label></div>
-                            <div class="form-check"><input type="radio" class="form-check-input" id="sv-animal2" name="sv-animal" value="dog"/><label class="form-check-label" for="sv-animal2">Dog</label></div>
+                        <div class="row">
+                            <div class="form-group col">
+                                <label>Edit Sex:</label>
+                                <div class="form-check"><input type="radio" class="form-check-input" id="sv-sex1" name="sv-sex" value="male"/><label class="form-check-label" for="sv-sex1">Male</label></div>
+                                <div class="form-check"><input type="radio" class="form-check-input" id="sv-sex2" name="sv-sex" value="female"/><label class="form-check-label" for="sv-sex2">Female</label></div>
+                            </div>
+    
+                            <div class="form-group col">
+                                <label>Edit Animal:</label>
+                                <div class="form-check"><input type="radio" class="form-check-input" id="sv-animal1" name="sv-animal" value="cat"/><label class="form-check-label" for="sv-animal1">Cat</label></div>
+                                <div class="form-check"><input type="radio" class="form-check-input" id="sv-animal2" name="sv-animal" value="dog"/><label class="form-check-label" for="sv-animal2">Dog</label></div>
+                            </div>
                         </div>
 
                         <button class="btn btn-primary d-block w-100" type="submit" style="color: var(--bs-light);background: var(--bs-red);">Submit</button>
@@ -75,6 +110,12 @@
             let name = document.getElementById("sv-name").value;
             let money = document.getElementById("sv-money").value;
 
+            let farmName = document.getElementById("sv-farm-name").value;
+            let favoriteThing = document.getElementById("sv-favorite-thing").value;
+
+            let health = document.getElementById("sv-health").value;
+            let stamina = document.getElementById("sv-stamina").value;
+
             let male = document.getElementById("sv-sex1").checked;
             let female = document.getElementById("sv-sex2").checked;
 
@@ -87,6 +128,22 @@
 
             if (money.length !== 0 || money.trim()) {
                 data["money"] = money;
+            }
+
+            if (health.length !== 0 || health.trim()) {
+                data["health"] = health;
+            }
+
+            if (stamina.length !== 0 || stamina.trim()) {
+                data["stamina"] = stamina;
+            }
+
+            if (farmName.length !== 0 || farmName.trim()) {
+                data["farmName"] = farmName;
+            }
+
+            if (favoriteThing.length !== 0 || favoriteThing.trim()) {
+                data["favoriteThing"] = favoriteThing;
             }
 
             if (male) {

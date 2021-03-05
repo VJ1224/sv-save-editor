@@ -34,6 +34,10 @@ int main() {
         if (data.has("money")) sveditor::setPlayerAttribute("money", data["money"].s());
         if (data.has("sex")) sveditor::setPlayerAttribute("isMale", data["sex"].s());
         if (data.has("animal")) sveditor::setPlayerAttribute("catPerson", data["animal"].s());
+        if (data.has("health")) sveditor::setPlayerAttribute("maxHealth", data["health"].s());
+        if (data.has("stamina")) sveditor::setPlayerAttribute("maxStamina", data["stamina"].s());
+        if (data.has("farmName")) sveditor::setPlayerAttribute("farmName", data["farmName"].s());
+        if (data.has("favoriteThing")) sveditor::setPlayerAttribute("favoriteThing", data["favoriteThing"].s());
 
         return 200;
     });
@@ -52,8 +56,16 @@ crow::json::wvalue toJSON() {
     obj["playtime"] = sveditor::getPlaytime();
 
     obj["name"] = sveditor::getPlayerAttribute("name");
+    obj["farmName"] = sveditor::getPlayerAttribute("farmName");
+    obj["favoriteThing"] = sveditor::getPlayerAttribute("favoriteThing");
+
+
     obj["currentMoney"] = sveditor::getPlayerAttribute("money");
     obj["moneyEarned"] = sveditor::getPlayerAttribute("totalMoneyEarned");
+
+    obj["maxHealth"] = sveditor::getPlayerAttribute("maxHealth");    
+    obj["maxStamina"] = sveditor::getPlayerAttribute("maxStamina");
+
     obj["skills"]["farmingLevel"] = sveditor::getPlayerAttribute("farmingLevel");
     obj["skills"]["combatLevel"] = sveditor::getPlayerAttribute("combatLevel");
     obj["skills"]["miningLevel"] = sveditor::getPlayerAttribute("miningLevel");
