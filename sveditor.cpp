@@ -79,25 +79,58 @@ string getPlayerAttribute(const char* attr) {
 string getExperiencePoints(const char* skill) {
     XMLElement *expPoints = player->FirstChildElement("experiencePoints");
     XMLElement* child = expPoints->FirstChildElement("int");
-    string exp[5] = {""};
     
     for (int i = 0; i < 5; i++) {
-        exp[i] = child->GetText();
+        if (strcmp(skill, "farming") == 0 && i == 0) {
+            return child->GetText();
+        } else if (strcmp(skill, "fishing") == 0 && i == 1) {
+            return child->GetText();
+        } else if (strcmp(skill, "foraging") == 0 && i == 2) {
+            return child->GetText();
+        } else if (strcmp(skill, "mining") == 0 && i == 3) {
+            return child->GetText();
+        } else if (strcmp(skill, "combat") == 0 && i == 4) {
+            return child->GetText();
+        }
+
         child = child->NextSiblingElement("int");
     }
 
-    if (strcmp(skill, "farming") == 0) {
-        return exp[0];
-    } else if (strcmp(skill, "fishing") == 0) {
-        return exp[1];
-    } else if (strcmp(skill, "foraging") == 0) {
-        return exp[2];
-    } else if (strcmp(skill, "mining") == 0) {
-        return exp[3];
-    } else if (strcmp(skill, "combat") == 0) {
-        return exp[4];
-    }
-
     return "0";
+}
+
+void setExperiencePoints(const char* skill, int level) {
+    XMLElement *expPoints = player->FirstChildElement("experiencePoints");
+    XMLElement* child = expPoints->FirstChildElement("int");
+    const char* exp;
+
+    switch(level) {
+        case 1: exp = "100"; break;
+        case 2: exp = "380"; break;
+        case 3: exp = "770"; break;
+        case 4: exp = "1300"; break;
+        case 5: exp = "2150"; break;
+        case 6: exp = "3300"; break;
+        case 7: exp = "4800"; break;
+        case 8: exp = "6900"; break;
+        case 9: exp = "10000"; break;
+        case 10: exp = "15000"; break;
+    }
+    
+    for (int i = 0; i < 5; i++) {
+        if (strcmp(skill, "farming") == 0 && i == 0) {
+            child->SetText(exp);
+        } else if (strcmp(skill, "fishing") == 0 && i == 1) {
+            child->SetText(exp);
+        } else if (strcmp(skill, "foraging") == 0 && i == 2) {
+            child->SetText(exp);
+        } else if (strcmp(skill, "mining") == 0 && i == 3) {
+            child->SetText(exp);
+        } else if (strcmp(skill, "combat") == 0 && i == 4) {
+            child->SetText(exp);
+        }
+        
+        child = child->NextSiblingElement("int");
+    }
 }
 }

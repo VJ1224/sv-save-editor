@@ -96,6 +96,37 @@
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="form-group col">
+                                <label>Edit Farming Lvl:</label>
+                                <input class="form-control" type="number" id="sv-farming" max="10" min="1">
+                            </div>
+    
+                            <div class="form-group col">
+                                <label>Edit Fishing Lvl:</label>
+                                <input class="form-control" type="number" id="sv-fishing" max="10" min="1">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col">
+                                <label>Edit Mining Lvl:</label>
+                                <input class="form-control" type="number" id="sv-mining" max="10" min="1">
+                            </div>
+    
+                            <div class="form-group col">
+                                <label>Edit Combat Lvl:</label>
+                                <input class="form-control" type="number" id="sv-combat" max="10" min="1">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col">
+                                <label>Edit Foraging Lvl:</label>
+                                <input class="form-control" type="number" id="sv-foraging" max="10" min="1">
+                            </div>
+                        </div>
+
                         <button class="btn btn-primary d-block w-100" type="submit" style="color: var(--bs-light);background: var(--bs-red);">Submit</button>
                     </form>
                 </div>
@@ -116,6 +147,12 @@
             let health = document.getElementById("sv-health").value;
             let stamina = document.getElementById("sv-stamina").value;
 
+            let farming = document.getElementById("sv-farming").value;
+            let mining = document.getElementById("sv-mining").value;
+            let combat = document.getElementById("sv-combat").value;
+            let fishing = document.getElementById("sv-fishing").value;
+            let foraging = document.getElementById("sv-foraging").value;
+
             let male = document.getElementById("sv-sex1").checked;
             let female = document.getElementById("sv-sex2").checked;
 
@@ -126,16 +163,36 @@
                 data["name"] = name;
             }
 
-            if (money.length !== 0 || money.trim()) {
+            if (money.length !== 0) {
                 data["money"] = money;
             }
 
-            if (health.length !== 0 || health.trim()) {
+            if (health.length !== 0) {
                 data["health"] = health;
             }
 
-            if (stamina.length !== 0 || stamina.trim()) {
+            if (stamina.length !== 0) {
                 data["stamina"] = stamina;
+            }
+
+            if (farming.length !== 0) {
+                data["farming"] = farming;
+            }
+
+            if (mining.length !== 0) {
+                data["mining"] = mining;
+            }
+
+            if (combat.length !== 0) {
+                data["combat"] = combat;
+            }
+
+            if (foraging.length !== 0) {
+                data["foraging"] = foraging;
+            }
+
+            if (fishing.length !== 0) {
+                data["fishing"] = fishing;
             }
 
             if (farmName.length !== 0 || farmName.trim()) {
