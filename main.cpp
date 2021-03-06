@@ -59,7 +59,6 @@ crow::json::wvalue toJSON() {
     obj["farmName"] = sveditor::getPlayerAttribute("farmName");
     obj["favoriteThing"] = sveditor::getPlayerAttribute("favoriteThing");
 
-
     obj["currentMoney"] = sveditor::getPlayerAttribute("money");
     obj["moneyEarned"] = sveditor::getPlayerAttribute("totalMoneyEarned");
 
@@ -71,6 +70,12 @@ crow::json::wvalue toJSON() {
     obj["skills"]["miningLevel"] = sveditor::getPlayerAttribute("miningLevel");
     obj["skills"]["foragingLevel"] = sveditor::getPlayerAttribute("foragingLevel");
     obj["skills"]["fishingLevel"] = sveditor::getPlayerAttribute("fishingLevel");
+
+    obj["skills"]["farmingExp"] = sveditor::getExperiencePoints("farming");
+    obj["skills"]["combatExp"] = sveditor::getExperiencePoints("combat");
+    obj["skills"]["miningExp"] = sveditor::getExperiencePoints("mining");
+    obj["skills"]["foragingExp"] = sveditor::getExperiencePoints("foraging");
+    obj["skills"]["fishingExp"] = sveditor::getExperiencePoints("fishing");
 
     return obj;
 }

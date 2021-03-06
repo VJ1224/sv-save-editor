@@ -5,26 +5,6 @@
 using namespace std;
 using namespace tinyxml2;
 
-void setFile(string);
-void setPlayerAttribute(string, string);
-
-bool fileLoaded();
-string getName();
-string getSex();
-string getAnimal();
-
-string getCurrentMoney();
-string getMoneyEarned();
-
-string getPlaytime();
-string getDate();
-
-string getFarmingLevel();
-string getMiningLevel();
-string getCombatLevel();
-string getFishingLevel();
-string getForagingLevel();
-
 namespace sveditor {
 
 XMLDocument doc;
@@ -82,7 +62,6 @@ string getPlaytime() {
     long milli = atol(millisecondsPlayed->GetText());
 
     int seconds = milli / 1000;
-    milli %= 1000;
 
     int minutes = seconds / 60;
     seconds %= 60;
@@ -95,5 +74,30 @@ string getPlaytime() {
 
 string getPlayerAttribute(const char* attr) {
     return player->FirstChildElement(attr)->GetText();
+}
+
+string getExperiencePoints(const char* skill) {
+    XMLElement *expPoints = player->FirstChildElement("experiencePoints");
+    XMLElement* child = expPoints->FirstChildElement("int");
+    string exp[5] = {""};
+    
+    for (int i = 0; i < 5; i++) {
+        exp[i] = child->GetText();
+        child = child->NextSiblingElement("int");
+    }
+
+    if (strcmp(skill, "farming") == 0) {
+        return exp[0];
+    } else if (strcmp(skill, "fishing") == 0) {
+        return exp[1];
+    } else if (strcmp(skill, "foraging") == 0) {
+        return exp[2];
+    } else if (strcmp(skill, "mining") == 0) {
+        return exp[3];
+    } else if (strcmp(skill, "combat") == 0) {
+        return exp[4];
+    }
+
+    return "0";
 }
 }
