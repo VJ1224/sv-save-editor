@@ -45,87 +45,103 @@
                     </p>
                 </div>
                 <div class="col">
-                    <form method="post" onsubmit="sendData(event)">
+                    <form method="post" onsubmit="sendData(event)" id="sv-save">
                         <div class="row">
                             <div class="form-group col">
                                 <label>Edit Name:</label>
-                                <input class="form-control" type="text" id="sv-name">
+                                <input class="form-control" type="text" name="name" id="sv-name" value="{{name}}">
                             </div>
 
                             <div class="form-group col">
                                 <label>Edit Farm Name:</label>
-                                <input class="form-control" type="text" id="sv-farm-name">
+                                <input class="form-control" type="text" name="farmName" id="sv-farm-name" value="{{farmName}}">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col">
                                 <label>Edit Favourite Thing:</label>
-                                <input class="form-control" type="text" id="sv-favorite-thing">
+                                <input class="form-control" type="text" name="favoriteThing" id="sv-favorite-thing" value="{{favoriteThing}}">
                             </div>
     
                             <div class="form-group col">
                                 <label>Edit Money:</label>
-                                <input class="form-control" type="number" id="sv-money">
+                                <input class="form-control" type="number" name="money" id="sv-money" value="{{currentMoney}}">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col">
                                 <label>Edit Health:</label>
-                                <input class="form-control" type="number" id="sv-health">
+                                <input class="form-control" type="number" name="health" id="sv-health" value="{{maxHealth}}">
                             </div>
     
                             <div class="form-group col">
                                 <label>Edit Stamina:</label>
-                                <input class="form-control" type="number" id="sv-stamina">
+                                <input class="form-control" type="number" name="stamina" id="sv-stamina" value="{{maxStamina}}">
                             </div>
                         </div>
                         
                         <div class="row">
                             <div class="form-group col">
                                 <label>Edit Sex:</label>
-                                <div class="form-check"><input type="radio" class="form-check-input" id="sv-sex1" name="sv-sex" value="male"/><label class="form-check-label" for="sv-sex1">Male</label></div>
-                                <div class="form-check"><input type="radio" class="form-check-input" id="sv-sex2" name="sv-sex" value="female"/><label class="form-check-label" for="sv-sex2">Female</label></div>
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="sv-sex1" name="sex" value="male" checked/>
+                                    <label class="form-check-label" for="sv-sex1">Male</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="sv-sex2" name="sex" value="female"/>
+                                    <label class="form-check-label" for="sv-sex2">Female</label>
+                                </div>
                             </div>
     
                             <div class="form-group col">
                                 <label>Edit Animal:</label>
-                                <div class="form-check"><input type="radio" class="form-check-input" id="sv-animal1" name="sv-animal" value="cat"/><label class="form-check-label" for="sv-animal1">Cat</label></div>
-                                <div class="form-check"><input type="radio" class="form-check-input" id="sv-animal2" name="sv-animal" value="dog"/><label class="form-check-label" for="sv-animal2">Dog</label></div>
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="sv-animal1" name="animal" value="cat" checked/>
+                                    <label class="form-check-label" for="sv-animal1">Cat</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="sv-animal2" name="animal" value="dog"/>
+                                    <label class="form-check-label" for="sv-animal2">Dog</label>
+                                </div>
                             </div>
                         </div>
 
+                        {{#skills}}
                         <div class="row">
                             <div class="form-group col">
                                 <label>Edit Farming Lvl:</label>
-                                <input class="form-control" type="number" id="sv-farming" max="10" min="1">
+                                <input class="form-control" type="number" name="farming" id="sv-farming" max="10" min="1" value="{{farmingLevel}}">
                             </div>
     
                             <div class="form-group col">
                                 <label>Edit Fishing Lvl:</label>
-                                <input class="form-control" type="number" id="sv-fishing" max="10" min="1">
+                                <input class="form-control" type="number" name="fishing" id="sv-fishing" max="10" min="1" value="{{fishingLevel}}">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col">
                                 <label>Edit Mining Lvl:</label>
-                                <input class="form-control" type="number" id="sv-mining" max="10" min="1">
+                                <input class="form-control" type="number" name="mining" id="sv-mining" max="10" min="1" value="{{miningLevel}}">
                             </div>
     
                             <div class="form-group col">
                                 <label>Edit Combat Lvl:</label>
-                                <input class="form-control" type="number" id="sv-combat" max="10" min="1">
+                                <input class="form-control" type="number" name="combat" id="sv-combat" max="10" min="1" value="{{combatLevel}}">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col">
                                 <label>Edit Foraging Lvl:</label>
-                                <input class="form-control" type="number" id="sv-foraging" max="10" min="1">
+                                <input class="form-control" type="number" name="foraging" id="sv-foraging" max="10" min="1" value="{{foragingLevel}}">
                             </div>
                         </div>
+                        {{/skills}}
 
                         <button class="btn btn-primary d-block w-100" type="submit" style="color: var(--bs-light);background: var(--bs-red);">Submit</button>
                     </form>
@@ -137,87 +153,7 @@
     <script>
         function sendData(event) {
             event.preventDefault();
-            let data = {};
-            let name = document.getElementById("sv-name").value;
-            let money = document.getElementById("sv-money").value;
-
-            let farmName = document.getElementById("sv-farm-name").value;
-            let favoriteThing = document.getElementById("sv-favorite-thing").value;
-
-            let health = document.getElementById("sv-health").value;
-            let stamina = document.getElementById("sv-stamina").value;
-
-            let farming = document.getElementById("sv-farming").value;
-            let mining = document.getElementById("sv-mining").value;
-            let combat = document.getElementById("sv-combat").value;
-            let fishing = document.getElementById("sv-fishing").value;
-            let foraging = document.getElementById("sv-foraging").value;
-
-            let male = document.getElementById("sv-sex1").checked;
-            let female = document.getElementById("sv-sex2").checked;
-
-            let cat = document.getElementById("sv-animal1").checked;
-            let dog = document.getElementById("sv-animal2").checked;
-
-            if (name.length !== 0 || name.trim()) {
-                data["name"] = name;
-            }
-
-            if (money.length !== 0) {
-                data["money"] = money;
-            }
-
-            if (health.length !== 0) {
-                data["health"] = health;
-            }
-
-            if (stamina.length !== 0) {
-                data["stamina"] = stamina;
-            }
-
-            if (farming.length !== 0) {
-                data["farming"] = farming;
-            }
-
-            if (mining.length !== 0) {
-                data["mining"] = mining;
-            }
-
-            if (combat.length !== 0) {
-                data["combat"] = combat;
-            }
-
-            if (foraging.length !== 0) {
-                data["foraging"] = foraging;
-            }
-
-            if (fishing.length !== 0) {
-                data["fishing"] = fishing;
-            }
-
-            if (farmName.length !== 0 || farmName.trim()) {
-                data["farmName"] = farmName;
-            }
-
-            if (favoriteThing.length !== 0 || favoriteThing.trim()) {
-                data["favoriteThing"] = favoriteThing;
-            }
-
-            if (male) {
-                data["sex"] = "true";
-            }
-
-            if (female) {
-                data["sex"] = "false";
-            }
-
-            if (cat) {
-                data["animal"] = "true";
-            }
-
-            if (dog) {
-                data["animal"] = "false";
-            }
+            let data = new FormData(document.querySelector("#sv-save"));
 
             fetch("/edit", {
                 method: "POST",
@@ -225,11 +161,26 @@
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(serialize(data))
             }).then(response => {
                 console.log(response);
                 window.location.href = '/profile';
             });
+        }
+
+        function serialize(data) {
+            let obj = {};
+            for (let [key, value] of data) {
+                if (obj[key] !== undefined) {
+                    if (!Array.isArray(obj[key])) {
+                        obj[key] = [obj[key]];
+                    }
+                    obj[key].push(value);
+                } else {
+                    obj[key] = value;
+                }
+            }
+            return obj;
         }
     </script>
 

@@ -17,10 +17,6 @@ void setFile(string file) {
     player = root->FirstChildElement("player");
 }
 
-void setPlayerAttribute(const char* attr, string value) {
-    player->FirstChildElement(attr)->SetText(value.c_str());
-}
-
 string getSex() {
     XMLElement* sex = player->FirstChildElement("isMale");
     if (strcmp(sex->GetText(),"true") == 0) {
@@ -99,6 +95,26 @@ string getExperiencePoints(const char* skill) {
     return "0";
 }
 
+void setPlayerAttribute(const char* attr, string value) {
+    player->FirstChildElement(attr)->SetText(value.c_str());
+}
+
+void setSex(string sex) {
+    if (strcmp(sex.c_str(), "male") == 0) {
+        setPlayerAttribute("isMale", "true");
+    } else {
+        setPlayerAttribute("isMale", "false");
+    }
+}
+
+void setAnimal(string animal) {
+    if (strcmp(animal.c_str(), "cat") == 0) {
+        setPlayerAttribute("catPerson", "true");
+    } else {
+        setPlayerAttribute("catPerson", "false");
+    }
+}
+
 void setExperiencePoints(const char* skill, int level) {
     XMLElement *expPoints = player->FirstChildElement("experiencePoints");
     XMLElement* child = expPoints->FirstChildElement("int");
@@ -119,15 +135,25 @@ void setExperiencePoints(const char* skill, int level) {
     
     for (int i = 0; i < 5; i++) {
         if (strcmp(skill, "farming") == 0 && i == 0) {
+            setPlayerAttribute("farmingLevel", to_string(level));
             child->SetText(exp);
+            break;
         } else if (strcmp(skill, "fishing") == 0 && i == 1) {
+            setPlayerAttribute("fishingLevel", to_string(level));
             child->SetText(exp);
+            break;
         } else if (strcmp(skill, "foraging") == 0 && i == 2) {
+            setPlayerAttribute("foragingLevel", to_string(level));
             child->SetText(exp);
+            break;
         } else if (strcmp(skill, "mining") == 0 && i == 3) {
+            setPlayerAttribute("miningLevel", to_string(level));
             child->SetText(exp);
+            break;
         } else if (strcmp(skill, "combat") == 0 && i == 4) {
+            setPlayerAttribute("combatLevel", to_string(level));
             child->SetText(exp);
+            break;
         }
         
         child = child->NextSiblingElement("int");

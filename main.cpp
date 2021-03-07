@@ -38,53 +38,22 @@ int main()
         if (!data)
             return 400;
 
-        if (data.has("name"))
-            sveditor::setPlayerAttribute("name", data["name"].s());
-        if (data.has("sex"))
-            sveditor::setPlayerAttribute("isMale", data["sex"].s());
-        if (data.has("animal"))
-            sveditor::setPlayerAttribute("catPerson", data["animal"].s());
-        if (data.has("farmName"))
-            sveditor::setPlayerAttribute("farmName", data["farmName"].s());
-        if (data.has("favoriteThing"))
-            sveditor::setPlayerAttribute("favoriteThing", data["favoriteThing"].s());
+        sveditor::setSex(data["sex"].s());
+        sveditor::setAnimal(data["animal"].s());
 
-        if (data.has("money"))
-            sveditor::setPlayerAttribute("money", data["money"].s());
-        if (data.has("health"))
-            sveditor::setPlayerAttribute("maxHealth", data["health"].s());
-        if (data.has("stamina"))
-            sveditor::setPlayerAttribute("maxStamina", data["stamina"].s());
+        sveditor::setPlayerAttribute("name", data["name"].s());
+        sveditor::setPlayerAttribute("farmName", data["farmName"].s());
+        sveditor::setPlayerAttribute("favoriteThing", data["favoriteThing"].s());
 
-        if (data.has("farming")) 
-        {
-            sveditor::setPlayerAttribute("farmingLevel", data["farming"].s());
-            sveditor::setExperiencePoints("farming", stoi(data["farming"].s()));
-        }
+        sveditor::setPlayerAttribute("money", data["money"].s());
+        sveditor::setPlayerAttribute("maxHealth", data["health"].s());
+        sveditor::setPlayerAttribute("maxStamina", data["stamina"].s());
 
-        if (data.has("mining")) 
-        {
-            sveditor::setPlayerAttribute("miningLevel", data["mining"].s());
-            sveditor::setExperiencePoints("mining", stoi(data["mining"].s()));
-        }
-
-        if (data.has("combat")) 
-        {
-            sveditor::setPlayerAttribute("combatLevel", data["combat"].s());
-            sveditor::setExperiencePoints("combat", stoi(data["combat"].s()));
-        }
-
-        if (data.has("foraging")) 
-        {
-            sveditor::setPlayerAttribute("foragingLevel", data["foraging"].s());
-            sveditor::setExperiencePoints("foraging", stoi(data["foraging"].s()));
-        }
-
-        if (data.has("fishing")) 
-        {
-            sveditor::setPlayerAttribute("fishingLevel", data["fishing"].s());
-            sveditor::setExperiencePoints("fishing", stoi(data["fishing"].s()));
-        }
+        sveditor::setExperiencePoints("farming", stoi(data["farming"].s()));
+        sveditor::setExperiencePoints("mining", stoi(data["mining"].s()));
+        sveditor::setExperiencePoints("combat", stoi(data["combat"].s()));
+        sveditor::setExperiencePoints("foraging", stoi(data["foraging"].s()));
+        sveditor::setExperiencePoints("fishing", stoi(data["fishing"].s()));
 
         return 200;
     });
