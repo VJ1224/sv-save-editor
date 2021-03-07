@@ -23,9 +23,23 @@ int main()
         return crow::mustache::load("pages/profile.html").render(ctx);
     });
 
+    CROW_ROUTE(app, "/download")
+    ([]() {
+        if (sveditor::root == NULL)
+            return crow::mustache::load("pages/index.html").render();
+
+        return sveditor::downloadFile();
+    });
+
     CROW_ROUTE(app, "/upload").methods("POST"_method)
     ([](const crow::request &req) {
         sveditor::setFile(req.body);
+        return 200;
+    });
+
+    CROW_ROUTE(app, "/filename").methods("POST"_method)
+    ([](const crow::request &req) {
+        sveditor::setFileName(req.body);
         return 200;
     });
 
@@ -68,6 +82,8 @@ int main()
 crow::json::wvalue toJSON()
 {
     crow::json::wvalue obj;
+    obj["filename"] = sveditor::getFileName();
+
     obj["sex"] = sveditor::getSex();
     obj["animal"] = sveditor::getAnimal();
     obj["date"] = sveditor::getDate();

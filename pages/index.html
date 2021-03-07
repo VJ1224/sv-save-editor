@@ -24,6 +24,14 @@
         function readFile(event) {
           event.preventDefault();
           let save = document.getElementById("save-file").files[0];
+          let filename = save.name;
+
+          fetch("/filename", {
+            method: "POST",
+            body: filename
+          }).then(response => {
+            console.log(response);
+          });
 
           const reader = new FileReader();
           reader.onload = sendFile;

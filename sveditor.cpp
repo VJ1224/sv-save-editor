@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include "libs/tinyxml2.cpp"
 #include "libs/tinyxml2.h"
 
@@ -10,11 +11,28 @@ namespace sveditor {
 XMLDocument doc;
 XMLElement* root = NULL;
 XMLElement* player = NULL;
+string filename;
 
 void setFile(string file) {
     doc.Parse(file.c_str());
     root = doc.FirstChildElement("SaveGame");
     player = root->FirstChildElement("player");
+}
+
+void setFileName(string name) {
+    filename = name;
+}
+
+string getFileName() {
+    return filename;
+}
+
+string downloadFile() {
+    stringstream document;
+    XMLPrinter printer;
+    doc.Accept(&printer);
+    document << printer.CStr();
+    return document.str();
 }
 
 string getSex() {
