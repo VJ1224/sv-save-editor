@@ -1,5 +1,9 @@
-#include <iostream>
-#include <sstream>
+#include <vector> 
+#include <string> 
+#include <algorithm> 
+#include <sstream> 
+#include <iterator> 
+#include <iostream> 
 #include "libs/tinyxml2.cpp"
 #include "libs/tinyxml2.h"
 
@@ -28,11 +32,9 @@ string getFileName() {
 }
 
 string downloadFile() {
-    stringstream document;
     XMLPrinter printer;
     doc.Accept(&printer);
-    document << printer.CStr();
-    return document.str();
+    return printer.CStr();
 }
 
 string getSex() {
@@ -113,6 +115,58 @@ string getExperiencePoints(const char* skill) {
     return "0";
 }
 
+string getProfession() {
+    vector<string> profs;
+    XMLElement*  professions = player->FirstChildElement("professions");
+    XMLElement* child = professions->FirstChildElement("int");
+    
+    while (child != NULL) {
+        const char* val = child->GetText();
+        switch(atoi(val)) {
+            case 0: profs.push_back("Rancher"); break;
+            case 1: profs.push_back("Tiller"); break;
+            case 2: profs.push_back("Coopmaster"); break;
+            case 3: profs.push_back("Shepherd"); break;
+            case 4: profs.push_back("Artisan"); break;
+            case 5: profs.push_back("Agriculturist"); break;
+            case 6: profs.push_back("Fisher"); break;
+            case 7: profs.push_back("Trapper"); break;
+            case 8: profs.push_back("Angler"); break;
+            case 9: profs.push_back("Pirate"); break;
+            case 10: profs.push_back("Mariner"); break;
+            case 11: profs.push_back("Luremaster"); break;
+            case 12: profs.push_back("Forester"); break;
+            case 13: profs.push_back("Gatherer"); break;
+            case 14: profs.push_back("Lumberjack"); break;
+            case 15: profs.push_back("Tapper"); break;
+            case 16: profs.push_back("Botanist"); break;
+            case 17: profs.push_back("Tracker"); break;
+            case 18: profs.push_back("Miner"); break;
+            case 19: profs.push_back("Geologist"); break;
+            case 20: profs.push_back("Blacksmith"); break;
+            case 21: profs.push_back("Prospector"); break;
+            case 22: profs.push_back("Excavator"); break;
+            case 23: profs.push_back("Gemologist"); break;
+            case 24: profs.push_back("Fighter"); break;
+            case 25: profs.push_back("Scout"); break;
+            case 26: profs.push_back("Brute"); break;
+            case 27: profs.push_back("Defender"); break;
+            case 28: profs.push_back("Acrobat"); break;
+            case 29: profs.push_back("Desperado"); break;
+        }
+        
+        child = child->NextSiblingElement("int");
+    }
+
+    ostringstream vts; 
+    if (!profs.empty()) { 
+        copy(profs.begin(), profs.end()-1, ostream_iterator<string>(vts, ", ")); 
+        vts << profs.back(); 
+    } 
+
+    return vts.str();
+}
+
 void setPlayerAttribute(const char* attr, string value) {
     player->FirstChildElement(attr)->SetText(value.c_str());
 }
@@ -176,5 +230,11 @@ void setExperiencePoints(const char* skill, int level) {
         
         child = child->NextSiblingElement("int");
     }
+}
+
+void addProfession(string prof) {
+    XMLElement*  professions = player->FirstChildElement("professions");
+    XMLElement* child = professions->InsertNewChildElement("int");
+    child->SetText(prof.c_str());
 }
 }

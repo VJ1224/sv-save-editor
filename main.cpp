@@ -52,9 +52,6 @@ int main()
         if (!data)
             return 400;
 
-        sveditor::setSex(data["sex"].s());
-        sveditor::setAnimal(data["animal"].s());
-
         sveditor::setPlayerAttribute("name", data["name"].s());
         sveditor::setPlayerAttribute("farmName", data["farmName"].s());
         sveditor::setPlayerAttribute("favoriteThing", data["favoriteThing"].s());
@@ -68,6 +65,10 @@ int main()
         sveditor::setExperiencePoints("combat", stoi(data["combat"].s()));
         sveditor::setExperiencePoints("foraging", stoi(data["foraging"].s()));
         sveditor::setExperiencePoints("fishing", stoi(data["fishing"].s()));
+
+        if(data.has("sex")) sveditor::setSex(data["sex"].s());
+        if(data.has("animal")) sveditor::setAnimal(data["animal"].s());
+        if(data.has("profession")) sveditor::addProfession(data["profession"].s());
 
         return 200;
     });
@@ -110,6 +111,8 @@ crow::json::wvalue toJSON()
     obj["skills"]["miningExp"] = sveditor::getExperiencePoints("mining");
     obj["skills"]["foragingExp"] = sveditor::getExperiencePoints("foraging");
     obj["skills"]["fishingExp"] = sveditor::getExperiencePoints("fishing");
+
+    obj["professions"] = sveditor::getProfession();
 
     return obj;
 }

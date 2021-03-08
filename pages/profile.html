@@ -42,6 +42,8 @@
                         <li>Fishing: {{fishingLevel}} | Exp: {{fishingExp}}</li>
                         </ul>
                         {{/skills}}
+
+                        Professions: {{professions}}
                     </p>
                 </div>
                 <div class="col">
@@ -49,36 +51,36 @@
                         <div class="row">
                             <div class="form-group col">
                                 <label>Edit Name:</label>
-                                <input class="form-control" type="text" name="name" id="sv-name" value="{{name}}">
+                                <input class="form-control" type="text" name="name" value="{{name}}">
                             </div>
 
                             <div class="form-group col">
                                 <label>Edit Farm Name:</label>
-                                <input class="form-control" type="text" name="farmName" id="sv-farm-name" value="{{farmName}}">
+                                <input class="form-control" type="text" name="farmName" value="{{farmName}}">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col">
                                 <label>Edit Favourite Thing:</label>
-                                <input class="form-control" type="text" name="favoriteThing" id="sv-favorite-thing" value="{{favoriteThing}}">
+                                <input class="form-control" type="text" name="favoriteThing" value="{{favoriteThing}}">
                             </div>
     
                             <div class="form-group col">
                                 <label>Edit Money:</label>
-                                <input class="form-control" type="number" name="money" id="sv-money" value="{{currentMoney}}">
+                                <input class="form-control" type="number" name="money" value="{{currentMoney}}">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col">
                                 <label>Edit Health:</label>
-                                <input class="form-control" type="number" name="health" id="sv-health" value="{{maxHealth}}">
+                                <input class="form-control" type="number" name="health" value="{{maxHealth}}">
                             </div>
     
                             <div class="form-group col">
                                 <label>Edit Stamina:</label>
-                                <input class="form-control" type="number" name="stamina" id="sv-stamina" value="{{maxStamina}}">
+                                <input class="form-control" type="number" name="stamina" value="{{maxStamina}}">
                             </div>
                         </div>
                         
@@ -86,12 +88,12 @@
                             <div class="form-group col">
                                 <label>Edit Sex:</label>
                                 <div class="form-check">
-                                    <input type="radio" class="form-check-input" id="sv-sex1" name="sex" value="male" checked/>
+                                    <input type="radio" class="form-check-input" name="sex" value="male"/>
                                     <label class="form-check-label" for="sv-sex1">Male</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input type="radio" class="form-check-input" id="sv-sex2" name="sex" value="female"/>
+                                    <input type="radio" class="form-check-input" name="sex" value="female"/>
                                     <label class="form-check-label" for="sv-sex2">Female</label>
                                 </div>
                             </div>
@@ -99,12 +101,12 @@
                             <div class="form-group col">
                                 <label>Edit Animal:</label>
                                 <div class="form-check">
-                                    <input type="radio" class="form-check-input" id="sv-animal1" name="animal" value="cat" checked/>
+                                    <input type="radio" class="form-check-input" name="animal" value="cat"/>
                                     <label class="form-check-label" for="sv-animal1">Cat</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input type="radio" class="form-check-input" id="sv-animal2" name="animal" value="dog"/>
+                                    <input type="radio" class="form-check-input" name="animal" value="dog"/>
                                     <label class="form-check-label" for="sv-animal2">Dog</label>
                                 </div>
                             </div>
@@ -114,34 +116,71 @@
                         <div class="row">
                             <div class="form-group col">
                                 <label>Edit Farming Lvl:</label>
-                                <input class="form-control" type="number" name="farming" id="sv-farming" max="10" min="1" value="{{farmingLevel}}">
+                                <input class="form-control" type="number" name="farming" max="10" min="1" value="{{farmingLevel}}">
                             </div>
     
                             <div class="form-group col">
                                 <label>Edit Fishing Lvl:</label>
-                                <input class="form-control" type="number" name="fishing" id="sv-fishing" max="10" min="1" value="{{fishingLevel}}">
+                                <input class="form-control" type="number" name="fishing" max="10" min="1" value="{{fishingLevel}}">
+                            </div>
+
+                            <div class="form-group col">
+                                <label>Edit Foraging Lvl:</label>
+                                <input class="form-control" type="number" name="foraging" max="10" min="1" value="{{foragingLevel}}">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col">
                                 <label>Edit Mining Lvl:</label>
-                                <input class="form-control" type="number" name="mining" id="sv-mining" max="10" min="1" value="{{miningLevel}}">
+                                <input class="form-control" type="number" name="mining" max="10" min="1" value="{{miningLevel}}">
                             </div>
     
                             <div class="form-group col">
                                 <label>Edit Combat Lvl:</label>
-                                <input class="form-control" type="number" name="combat" id="sv-combat" max="10" min="1" value="{{combatLevel}}">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col">
-                                <label>Edit Foraging Lvl:</label>
-                                <input class="form-control" type="number" name="foraging" id="sv-foraging" max="10" min="1" value="{{foragingLevel}}">
+                                <input class="form-control" type="number" name="combat" max="10" min="1" value="{{combatLevel}}">
                             </div>
                         </div>
                         {{/skills}}
+                        
+                        <div class="row">
+                            <div class="form-group col">
+                                <label>Add Profession:</label>
+                                <select class="form-select" name="profession">
+                                    <option disabled selected>Select</option>
+                                    <option value="0">Rancher</option>
+                                    <option value="1">Tiller</option>
+                                    <option value="2">Coopmaster</option>
+                                    <option value="3">Shepherd</option>
+                                    <option value="4">Artisan</option>
+                                    <option value="5">Agriculturist</option>
+                                    <option value="6">Fisher</option>
+                                    <option value="7">Trapper</option>
+                                    <option value="8">Angler</option>
+                                    <option value="9">Pirate</option>
+                                    <option value="10">Mariner</option>
+                                    <option value="11">Luremaster</option>
+                                    <option value="12">Forester</option>
+                                    <option value="13">Gatherer</option>
+                                    <option value="14">Lumberjack</option>
+                                    <option value="15">Tapper</option>
+                                    <option value="16">Botanist</option>
+                                    <option value="17">Tracker</option>
+                                    <option value="18">Miner</option>
+                                    <option value="19">Geologist</option>
+                                    <option value="20">Blacksmith</option>
+                                    <option value="21">Prospector</option>
+                                    <option value="22">Excavator</option>
+                                    <option value="23">Gemologist</option>
+                                    <option value="24">Fighter</option>
+                                    <option value="25">Scout</option>
+                                    <option value="26">Brute</option>
+                                    <option value="27">Defender</option>
+                                    <option value="28">Acrobat</option>
+                                    <option value="29">Desperado</option>
+                                </select>
+                            </div>
+                        </div>
 
                         <button class="btn btn-primary d-block w-100" type="submit" style="color: var(--bs-light);background: var(--bs-red);">Submit</button>
                         <a href="/download" class="btn btn-primary d-block w-100" style="color: var(--bs-light);background: var(--bs-red);" download="{{filename}}">Download</a>
