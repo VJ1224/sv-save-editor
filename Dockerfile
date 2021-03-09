@@ -12,11 +12,11 @@ COPY . /usr/svsaveeditor/
 
 WORKDIR /usr/svsaveeditor/
 
-RUN chmod +x /usr/svsaveeditor/build/deploy.sh 
+RUN chmod +x /usr/svsaveeditor/build/build.sh 
 
 EXPOSE 18080
 
-CMD /usr/svsaveeditor/build/deploy.sh && tail -f /dev/null
+CMD /usr/svsaveeditor/build/build.sh && tail -f /dev/null
 
 # build: sudo docker build --rm -t svsaveeditor:latest .
 # run: sudo docker run --rm -p 18080:18080 svsaveeditor
