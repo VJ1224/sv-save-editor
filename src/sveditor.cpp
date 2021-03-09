@@ -27,6 +27,12 @@ void setFileName(string name) {
     filename = name;
 }
 
+void clearFile() {
+    doc.Clear();
+    root = NULL;
+    player = NULL;
+}
+
 string getFileName() {
     return filename;
 }

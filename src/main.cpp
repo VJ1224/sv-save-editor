@@ -14,6 +14,12 @@ int main()
         return crow::mustache::load("pages/index.html").render();
     });
 
+    CROW_ROUTE(app, "/clear")
+    ([]() {
+        sveditor::clearFile();
+        return crow::mustache::load("pages/index.html").render();
+    });
+
     CROW_ROUTE(app, "/profile")
     ([]() {
         if (sveditor::root == NULL)
