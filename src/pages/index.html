@@ -5,50 +5,70 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Stardew Valley Save Editor</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
-    <link rel="stylesheet" href="/static/css/styles.min.css">
+    <link rel="stylesheet" href="https://sveditor.fra1.cdn.digitaloceanspaces.com/styles.min.css">
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">Profile</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <section class="login-clean">
         <form method="post" style="max-width: 50%;min-width: 50%;" onsubmit="readFile(event)">
-            <img src="/static/img/logo.png" style="width: 100%;height: 25%;">
+            <img src="https://sveditor.fra1.cdn.digitaloceanspaces.com/logo.png" style="width: 100%;height: 25%;">
             <label class="form-label">Upload Save File:</label>
             <input class="form-control" type="file" id="save-file">
-            <button class="btn btn-primary d-block w-100" type="submit" style="color: var(--bs-light);background: var(--bs-red);">Submit</button>
+            <button class="btn btn-primary d-block w-100" type="submit"
+                style="color: var(--bs-light);background: var(--bs-red);">Submit</button>
         </form>
     </section>
 
     <script>
         function readFile(event) {
-          event.preventDefault();
-          let save = document.getElementById("save-file").files[0];
-          let filename = save.name;
+            event.preventDefault();
+            let save = document.getElementById("save-file").files[0];
+            let filename = save.name;
 
-          fetch("/filename", {
-            method: "POST",
-            body: filename
-          }).then(response => {
-            console.log(response);
-          });
+            fetch("/filename", {
+                method: "POST",
+                body: filename
+            }).then(response => {
+                console.log(response);
+            });
 
-          const reader = new FileReader();
-          reader.onload = sendFile;
-          reader.readAsText(save);
+            const reader = new FileReader();
+            reader.onload = sendFile;
+            reader.readAsText(save);
         }
 
         function sendFile(event) {
-          fetch("/upload", {
-            method: "POST",
-            body: event.target.result
-          }).then(response => {
-            console.log(response);
-            window.location.href = '/profile';
-          });
+            fetch("/upload", {
+                method: "POST",
+                body: event.target.result
+            }).then(response => {
+                console.log(response);
+                window.location.href = '/profile';
+            });
         }
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta2/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
