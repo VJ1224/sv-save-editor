@@ -40,11 +40,24 @@
     </section>
 
     <script>
+        let filename = "";
         function readFile(event) {
             event.preventDefault();
             let save = document.getElementById("save-file").files[0];
-            let filename = save.name;
+            filename = save.name;
 
+            const reader = new FileReader();
+            reader.onerror = errorFile;
+            reader.onload = sendFile;
+            reader.readAsText(save);
+        }
+
+        function errorFile(event) {
+            alert("Invalid File");
+            window.location.reload();
+        }
+
+        function sendFile(event) {
             fetch("/filename", {
                 method: "POST",
                 body: filename
@@ -52,12 +65,6 @@
                 console.log(response);
             });
 
-            const reader = new FileReader();
-            reader.onload = sendFile;
-            reader.readAsText(save);
-        }
-
-        function sendFile(event) {
             fetch("/upload", {
                 method: "POST",
                 body: event.target.result

@@ -19,4 +19,4 @@ EXPOSE 18080
 CMD /usr/svsaveeditor/build/build.sh
 
 # build: sudo docker build --tag sveditor:latest .
-# run: sudo docker run -td -p 18080:18080 svsaveeditor
+# run: sudo docker run -td -p 18080:18080 sveditor
