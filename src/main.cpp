@@ -76,8 +76,7 @@ int main()
     app.loglevel(crow::LogLevel::WARNING);
     app.port(18080).multithreaded().run();
 
-    // release: g++ main.cpp -lpthread -lboost_system -lz -o sveditor.out
-    // debug: g++ main.cpp -ggdb -lpthread -lboost_system -lz -D CROW_ENABLE_DEBUG -o sveditor.out
+    // g++ main.cpp -lpthread -lboost_system -lz -o ../build/sveditor.out
 }
 
 crow::json::wvalue toJSON()
