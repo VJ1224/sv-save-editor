@@ -201,12 +201,13 @@
                         </div>
 
                         <button class="btn btn-primary d-block w-100" type="submit" style="color: var(--bs-light);background: var(--bs-red);">Submit</button>
-                        <a href="/download" class="btn btn-primary d-block w-100" style="color: var(--bs-light);background: var(--bs-red);" download="{{filename}}">Download</a>
+                        <button class="btn btn-primary d-block w-100" onclick="downloadFile()" style="color: var(--bs-light);background: var(--bs-red);">Download</button>
+                        <a href="/download" id="download" download="{{filename}}" style="display:none;"></a>
                     </form>
                 </div>
             </div>
         </div>
-    </section>    
+    </section>
 
     <script>
         function sendData(event) {
@@ -239,6 +240,11 @@
                 }
             }
             return obj;
+        }
+
+        function downloadFile() {
+            document.getElementById("download").click();
+            window.location.href = "/";
         }
     </script>
 

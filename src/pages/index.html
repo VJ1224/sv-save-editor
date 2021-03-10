@@ -33,11 +33,6 @@
         <form method="post" style="max-width: 50%;min-width: 50%;" onsubmit="readFile(event)">
             <img src="https://sveditor.fra1.cdn.digitaloceanspaces.com/logo.png" style="width: 100%;height: 25%;">
 
-            <div class="form-group">
-                <label>Username:</label>
-                <input class="form-control" type="text" name="username" id="username">
-            </div>
-
             <div class="form-group col">
                 <label class="form-label">Upload Save File:</label>
                 <input class="form-control" type="file" id="save-file">
@@ -50,12 +45,10 @@
 
     <script>
         let filename = "";
-        let username = "";
         function readFile(event) {
             event.preventDefault();
             let save = document.getElementById("save-file").files[0];
             filename = save.name;
-            username = document.getElementById("username").value;
 
             const reader = new FileReader();
             reader.onerror = errorFile;
@@ -71,7 +64,6 @@
         function sendFile(event) {
             let json = new Object();
             json.filename = filename;
-            json.username = username;
             json.file = event.target.result;
 
             fetch("/upload", {
