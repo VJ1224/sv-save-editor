@@ -48,8 +48,6 @@ int main()
 
         sveditor::setFile(file);
         sveditor::setFileName(filename);
-
-        database::insertFile(username.c_str(), filename.c_str(), file.c_str());
         return 200;
     });
 
