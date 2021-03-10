@@ -10,8 +10,11 @@
 using namespace std;
 using namespace tinyxml2;
 
-namespace sveditor {
+/* 
+TODO: Edit entire file to use unqiue username to edit xml
+*/
 
+namespace sveditor {
 XMLDocument doc;
 XMLElement* root = NULL;
 XMLElement* player = NULL;
@@ -40,6 +43,7 @@ void setFile(string file) {
     player = root->FirstChildElement("player");
     if (player == NULL) {
         clearFile();   
+        return;
     }
 }
 

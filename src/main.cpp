@@ -1,6 +1,7 @@
 #include "sveditor.cpp"
 #include "tools.hpp"
 #include "libs/crow_all.h"
+#include "database.cpp"
 
 crow::json::wvalue toJSON();
 
@@ -39,13 +40,16 @@ int main()
 
     CROW_ROUTE(app, "/upload").methods("POST"_method)
     ([](const crow::request &req) {
-        sveditor::setFile(req.body);
-        return 200;
-    });
+        crow::json::rvalue data = crow::json::load(req.body);
+        
+        string username = data["username"].s();
+        string filename = data["filename"].s();
+        string file = data["file"].s();
 
-    CROW_ROUTE(app, "/filename").methods("POST"_method)
-    ([](const crow::request &req) {
-        sveditor::setFileName(req.body);
+        sveditor::setFile(file);
+        sveditor::setFileName(filename);
+
+        database::insertFile(username.c_str(), filename.c_str(), file.c_str());
         return 200;
     });
 
