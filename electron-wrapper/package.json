@@ -1,0 +1,18 @@
+{
+  "name": "sv-save-editor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "build:package": "electron-packager . --out=out",
+    "build:snap": "electron-installer-snap --src=out/sv-save-editor-linux-x64"
+  },
+  "author": "Vansh Jain",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "electron-installer-snap": "^5.1.0",
+    "electron": "^12.0.0"
+  }
+}

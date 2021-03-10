@@ -2,3 +2,6 @@
 data.xml
 *.out
 .idea
+node_modules
+sv-save-editor-linux-x64
+package-lock.json
