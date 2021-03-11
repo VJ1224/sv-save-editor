@@ -6,62 +6,30 @@
 #include <iostream> 
 #include "libs/tinyxml2.cpp"
 #include "libs/tinyxml2.h"
+#include "libs/crow_all.h"
 
 using namespace std;
 using namespace tinyxml2;
 
-/* 
-TODO: Edit entire file to use unqiue username to edit xml
-*/
-
-namespace sveditor {
-XMLDocument doc;
-XMLElement* root = NULL;
-XMLElement* player = NULL;
-string filename;
-
-void clearFile() {
-    doc.Clear();
-    root = NULL;
-    player = NULL;
-}
-
-void setFile(string file) {
+namespace sveditor2 {
+bool validateFile(string file) {
+    XMLDocument doc;
     doc.Parse(file.c_str());
 
-    if (doc.Error()) {
-        clearFile();
-        return;
-    }
-
-    root = doc.FirstChildElement("SaveGame");
+    XMLElement* root = doc.FirstChildElement("SaveGame");
     if (root == NULL) {
-        clearFile();
-        return;
+        return false;
     }
 
-    player = root->FirstChildElement("player");
+    XMLElement* player = root->FirstChildElement("player");
     if (player == NULL) {
-        clearFile();   
-        return;
+        return false;
     }
+
+    return true;
 }
 
-void setFileName(string name) {
-    filename = name;
-}
-
-string getFileName() {
-    return filename;
-}
-
-string downloadFile() {
-    XMLPrinter printer;
-    doc.Accept(&printer);
-    return printer.CStr();
-}
-
-string getSex() {
+string getPlayerSex(XMLElement* player) {
     XMLElement* sex = player->FirstChildElement("isMale");
     if (strcmp(sex->GetText(),"true") == 0) {
         return "Male";
@@ -70,7 +38,7 @@ string getSex() {
     }
 }
 
-string getAnimal() {
+string getPlayerAnimal(XMLElement* player) {
     XMLElement* animal = player->FirstChildElement("catPerson");
     if (strcmp(animal->GetText(),"true") == 0) {
         return "Cat";
@@ -79,7 +47,7 @@ string getAnimal() {
     }
 }
 
-string getDate() {
+string getDate(XMLElement* player) {
     XMLElement* day = player->FirstChildElement("dayOfMonthForSaveGame");
     XMLElement* season = player->FirstChildElement("seasonForSaveGame");
     XMLElement* year = player->FirstChildElement("yearForSaveGame");
@@ -96,7 +64,7 @@ string getDate() {
     return "Day " + string(day->GetText()) + " of " + seasonName + ", Year " + year->GetText();
 }
 
-string getPlaytime() {
+string getPlaytime(XMLElement* player) {
     XMLElement* millisecondsPlayed = player->FirstChildElement("millisecondsPlayed");
 
     long milli = atol(millisecondsPlayed->GetText());
@@ -112,11 +80,11 @@ string getPlaytime() {
     return to_string(hours) + "h " + to_string(minutes) + "m " + to_string(seconds) + "s";
 }
 
-string getPlayerAttribute(const char* attr) {
+string getPlayerAttribute(XMLElement* player, const char* attr) {
     return player->FirstChildElement(attr)->GetText();
 }
 
-string getExperiencePoints(const char* skill) {
+string getExperiencePoints(XMLElement* player, const char* skill) {
     XMLElement *expPoints = player->FirstChildElement("experiencePoints");
     XMLElement* child = expPoints->FirstChildElement("int");
     
@@ -139,7 +107,7 @@ string getExperiencePoints(const char* skill) {
     return "0";
 }
 
-string getProfession() {
+string getProfession(XMLElement* player) {
     vector<string> profs;
     XMLElement*  professions = player->FirstChildElement("professions");
     XMLElement* child = professions->FirstChildElement("int");
@@ -191,27 +159,51 @@ string getProfession() {
     return vts.str();
 }
 
-void setPlayerAttribute(const char* attr, string value) {
+string getFile(string file) {
+    XMLDocument doc;
+    doc.Parse(file.c_str());
+
+    XMLElement* root = doc.FirstChildElement("SaveGame");
+    XMLElement* player = root->FirstChildElement("player");
+
+    crow::json::wvalue obj;
+
+    obj["name"] = getPlayerAttribute(player, "name");
+    obj["farmName"] = getPlayerAttribute(player, "farmName");
+
+    obj["favoriteThing"] = getPlayerAttribute(player, "favoriteThing");
+    obj["currentMoney"] = getPlayerAttribute(player, "money");
+    obj["moneyEarned"] = getPlayerAttribute(player, "totalMoneyEarned");
+    obj["maxHealth"] = getPlayerAttribute(player, "maxHealth");
+    obj["maxStamina"] = getPlayerAttribute(player, "maxStamina");
+
+    obj["sex"] = getPlayerSex(player);
+    obj["animal"] = getPlayerAnimal(player);
+    obj["date"] = getDate(player);
+    obj["playtime"] = getPlaytime(player);
+
+    obj["skills"]["farmingLevel"] = getPlayerAttribute(player, "farmingLevel");
+    obj["skills"]["combatLevel"] = getPlayerAttribute(player, "combatLevel");
+    obj["skills"]["miningLevel"] = getPlayerAttribute(player, "miningLevel");
+    obj["skills"]["foragingLevel"] = getPlayerAttribute(player, "foragingLevel");
+    obj["skills"]["fishingLevel"] = getPlayerAttribute(player, "fishingLevel");
+
+    obj["skills"]["farmingExp"] = getExperiencePoints(player, "farming");
+    obj["skills"]["combatExp"] = getExperiencePoints(player, "combat");
+    obj["skills"]["miningExp"] = getExperiencePoints(player, "mining");
+    obj["skills"]["foragingExp"] = getExperiencePoints(player, "foraging");
+    obj["skills"]["fishingExp"] = getExperiencePoints(player, "fishing");
+
+    obj["professions"] = getProfession(player);
+
+    return obj.dump();
+}
+
+void setPlayerAttribute(XMLElement* player, const char* attr, string value) {
     player->FirstChildElement(attr)->SetText(value.c_str());
 }
 
-void setSex(string sex) {
-    if (strcmp(sex.c_str(), "male") == 0) {
-        setPlayerAttribute("isMale", "true");
-    } else {
-        setPlayerAttribute("isMale", "false");
-    }
-}
-
-void setAnimal(string animal) {
-    if (strcmp(animal.c_str(), "cat") == 0) {
-        setPlayerAttribute("catPerson", "true");
-    } else {
-        setPlayerAttribute("catPerson", "false");
-    }
-}
-
-void setExperiencePoints(const char* skill, int level) {
+void setExperiencePoints(XMLElement* player, const char* skill, int level) {
     XMLElement *expPoints = player->FirstChildElement("experiencePoints");
     XMLElement* child = expPoints->FirstChildElement("int");
     const char* exp;
@@ -228,26 +220,26 @@ void setExperiencePoints(const char* skill, int level) {
         case 9: exp = "10000"; break;
         case 10: exp = "15000"; break;
     }
-    
+
     for (int i = 0; i < 5; i++) {
         if (strcmp(skill, "farming") == 0 && i == 0) {
-            setPlayerAttribute("farmingLevel", to_string(level));
+            setPlayerAttribute(player, "farmingLevel", to_string(level));
             child->SetText(exp);
             break;
         } else if (strcmp(skill, "fishing") == 0 && i == 1) {
-            setPlayerAttribute("fishingLevel", to_string(level));
+            setPlayerAttribute(player, "fishingLevel", to_string(level));
             child->SetText(exp);
             break;
         } else if (strcmp(skill, "foraging") == 0 && i == 2) {
-            setPlayerAttribute("foragingLevel", to_string(level));
+            setPlayerAttribute(player, "foragingLevel", to_string(level));
             child->SetText(exp);
             break;
         } else if (strcmp(skill, "mining") == 0 && i == 3) {
-            setPlayerAttribute("miningLevel", to_string(level));
+            setPlayerAttribute(player, "miningLevel", to_string(level));
             child->SetText(exp);
             break;
         } else if (strcmp(skill, "combat") == 0 && i == 4) {
-            setPlayerAttribute("combatLevel", to_string(level));
+            setPlayerAttribute(player, "combatLevel", to_string(level));
             child->SetText(exp);
             break;
         }
@@ -256,9 +248,57 @@ void setExperiencePoints(const char* skill, int level) {
     }
 }
 
-void addProfession(string prof) {
+void addProfession(XMLElement* player, string prof) {
     XMLElement*  professions = player->FirstChildElement("professions");
     XMLElement* child = professions->InsertNewChildElement("int");
     child->SetText(prof.c_str());
+}
+
+string editFile(string file, crow::json::rvalue data) {
+    XMLDocument doc;
+    doc.Parse(file.c_str());
+
+    XMLElement* root = doc.FirstChildElement("SaveGame");
+    XMLElement* player = root->FirstChildElement("player");
+    
+    if(data.has("name")) setPlayerAttribute(player, "name", data["name"].s());
+    if(data.has("farmName")) setPlayerAttribute(player, "farmName", data["farmName"].s());
+    if(data.has("favoriteThing")) setPlayerAttribute(player, "favoriteThing", data["favoriteThing"].s());
+
+    if(data.has("money")) setPlayerAttribute(player, "money", data["money"].s());
+    if(data.has("health")) setPlayerAttribute(player, "maxHealth", data["health"].s());
+    if(data.has("stamina")) setPlayerAttribute(player, "maxStamina", data["stamina"].s());
+
+    if(data.has("farming")) setExperiencePoints(player, "farming", stoi(data["farming"].s()));
+    if(data.has("mining")) setExperiencePoints(player, "mining", stoi(data["mining"].s()));
+    if(data.has("combat")) setExperiencePoints(player, "combat", stoi(data["combat"].s()));
+    if(data.has("foraging")) setExperiencePoints(player, "foraging", stoi(data["foraging"].s()));
+    if(data.has("fishing")) setExperiencePoints(player, "fishing", stoi(data["fishing"].s()));
+
+    if (data.has("sex")) {
+        string sex = data["sex"].s();
+        if (strcmp(sex.c_str(), "male") == 0) {
+            setPlayerAttribute(player, "isMale", "true");
+        } else {
+            setPlayerAttribute(player, "isMale", "false");
+        }
+    }
+
+    if (data.has("animal")) {
+        string animal = data["animal"].s();
+        if (strcmp(animal.c_str(), "cat") == 0) {
+            setPlayerAttribute(player, "catPerson", "true");
+        } else {
+            setPlayerAttribute(player, "catPerson", "false");
+        }
+    }
+
+    if (data.has("profession")) {
+        addProfession(player, data["profession"].s());
+    }
+
+    XMLPrinter printer;
+    doc.Accept(&printer);
+    return printer.CStr();
 }
 }
