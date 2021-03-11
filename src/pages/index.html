@@ -58,7 +58,7 @@
         }
 
         function errorFile(event) {
-            sessionStorage.clear();
+            sessionStorage.removeItem("filename");
             alert("Invalid File");
         }
 
@@ -85,7 +85,7 @@
                     }).then(response => {
                         if(response.ok) window.location.href = "/profile";
                         else {
-                            sessionStorage.clear();
+                            sessionStorage.removeItem("filename");
                             alert("Invalid File");
                         }
                     });

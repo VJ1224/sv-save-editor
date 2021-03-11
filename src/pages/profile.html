@@ -258,6 +258,7 @@
             let object = new Object();
             let data = new FormData(document.querySelector("#sv-save"));
             object.data = serialize(data);
+            console.log(JSON.stringify(object.data));
             object.file = file;
 
             fetch("/edit", {

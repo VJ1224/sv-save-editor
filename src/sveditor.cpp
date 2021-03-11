@@ -87,7 +87,7 @@ string getPlayerAttribute(XMLElement* player, const char* attr) {
 string getExperiencePoints(XMLElement* player, const char* skill) {
     XMLElement *expPoints = player->FirstChildElement("experiencePoints");
     XMLElement* child = expPoints->FirstChildElement("int");
-    
+
     for (int i = 0; i < 5; i++) {
         if (strcmp(skill, "farming") == 0 && i == 0) {
             return child->GetText();
@@ -217,7 +217,7 @@ void setExperiencePoints(XMLElement* player, const char* skill, string level) {
     if (strcmp(level.c_str(), "7") == 0) exp = "4800";
     if (strcmp(level.c_str(), "8") == 0) exp = "6900";
     if (strcmp(level.c_str(), "9") == 0) exp = "10000";
-    if (strcmp(level.c_str(), "1") == 0) exp = "15000";
+    if (strcmp(level.c_str(), "10") == 0) exp = "15000";
 
     for (int i = 0; i < 5; i++) {
         if (strcmp(skill, "farming") == 0 && i == 0) {
