@@ -183,6 +183,8 @@
     <script src="https://sveditor.fra1.cdn.digitaloceanspaces.com/bakedGoods.js"></script>
 
     <script>
+        if (sessionStorage.getItem("filename") === null) window.location.href = "/";
+
         let optionsObj = {
             fileSystem: {
                 storageType: Window.TEMPORARY, 
@@ -190,28 +192,24 @@
                 directoryPath: "/sv-save-editor"
             }
         };
-        let file = "";
         
-        window.onload = async function() {
-            if (sessionStorage.getItem("filename") === null) window.location.href = "/";
+        let file = "";
+        bakedGoods.get({
+            data: ["file"],
+            storageTypes: ["fileSystem"],
+            options: optionsObj,
+            complete: async function(totalProcessedItemCount, resultDataObj, byStorageTypeErrorObj){
+                file = totalProcessedItemCount.file;
 
-            bakedGoods.get({
-                data: ["file"],
-                storageTypes: ["fileSystem"],
-                options: optionsObj,
-                complete: async function(totalProcessedItemCount, resultDataObj, byStorageTypeErrorObj){
-                    file = totalProcessedItemCount.file;
-
-                    fetch("/parse", {
-                        method: "POST",
-                        body: totalProcessedItemCount.file
-                    }).then(async response => {
-                        let object = await response.json();
-                        setProfile(object);
-                    });
-                }
-            });
-        }
+                fetch("/parse", {
+                    method: "POST",
+                    body: totalProcessedItemCount.file
+                }).then(async response => {
+                    let object = await response.json();
+                    setProfile(object);      
+                });
+            }
+        });
 
         function setProfile(object) {
             document.getElementsByName("name")[0].setAttribute("value", object.name);
@@ -248,7 +246,7 @@
                                 Professions: ${object.professions}`;
         }
 
-        async function sendData(event) {
+        function sendData(event) {
             event.preventDefault();
             let object = new Object();
             let data = new FormData(document.querySelector("#sv-save"));
