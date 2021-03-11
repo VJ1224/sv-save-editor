@@ -102,7 +102,6 @@
                             </div>
                         </div>
 
-                        {{#skills}}
                         <div class="row">
                             <div class="form-group col">
                                 <label>Edit Farming Lvl:</label>
@@ -131,7 +130,6 @@
                                 <input class="form-control" type="number" name="combat" max="10" min="1">
                             </div>
                         </div>
-                        {{/skills}}
                         
                         <div class="row">
                             <div class="form-group col">
@@ -173,7 +171,7 @@
                         </div>
 
                         <button class="btn btn-primary d-block w-100" type="submit" style="color: var(--bs-light);background: var(--bs-red);">Submit</button>
-                        <button class="btn btn-primary d-block w-100" onclick="downloadFile()" style="color: var(--bs-light);background: var(--bs-red);">Download</button>
+                        <button class="btn btn-primary d-block w-100" onclick="downloadFile(event)" style="color: var(--bs-light);background: var(--bs-red);">Download</button>
                     </form>
                 </div>
             </div>
@@ -194,6 +192,7 @@
         };
         
         let file = "";
+        let profile = "";
         bakedGoods.get({
             data: ["file"],
             storageTypes: ["fileSystem"],
@@ -205,8 +204,10 @@
                     method: "POST",
                     body: totalProcessedItemCount.file
                 }).then(async response => {
-                    let object = await response.json();
-                    setProfile(object);      
+                    profile = await response.json(); 
+                    if(document.readyState === 'complete') {
+                        setProfile(profile);
+                    }
                 });
             }
         });
@@ -218,6 +219,12 @@
             document.getElementsByName("health")[0].setAttribute("value", object.maxHealth);
             document.getElementsByName("stamina")[0].setAttribute("value", object.maxStamina);
             document.getElementsByName("money")[0].setAttribute("value", object.currentMoney);
+
+            document.getElementsByName("farming")[0].setAttribute("value", object.skills.farmingLevel);
+            document.getElementsByName("mining")[0].setAttribute("value", object.skills.miningLevel);
+            document.getElementsByName("combat")[0].setAttribute("value", object.skills.combatLevel);
+            document.getElementsByName("foraging")[0].setAttribute("value", object.skills.foragingLevel);
+            document.getElementsByName("fishing")[0].setAttribute("value", object.skills.fishingLevel);
 
             document.getElementById("info").innerHTML = `Name: ${object.name} <br>
                                 Farm Name: ${object.farmName}  <br>
@@ -262,6 +269,8 @@
                 body: JSON.stringify(object)
             }).then(async response => {
                 let edited = await response.text();
+                edited = edited.replace(/>\s*/g, '>');
+                edited = edited.replace(/\s*</g, '<');
                 bakedGoods.set({
                     data: [{key: "file", value: edited}],
                     storageTypes: ["fileSystem"],
@@ -273,38 +282,32 @@
             });
         }
 
-        function downloadFile(){
-            let file;
+        function downloadFile(event){
+            event.preventDefault();
             let filename = sessionStorage.getItem("filename");
-            bakedGoods.get({
-                data: ["file"],
-                storageTypes: ["fileSystem"],
-                options: optionsObj,
-                complete: function(totalProcessedItemCount, resultDataObj, byStorageTypeErrorObj){
-                    file = totalProcessedItemCount.file;
-
-                    let a = document.createElement('a')
-                    let blob = new Blob([file], {type: "text/xml"})
-                    let url = URL.createObjectURL(blob)
-                    
-                    a.setAttribute("href", url)
-                    a.setAttribute("download", filename)
-                    a.click();
-                }
-            });
+    
+            let a = document.createElement('a')
+            let blob = new Blob([file], {type: "text/xml"})
+            let url = URL.createObjectURL(blob)
+            
+            a.setAttribute("href", url)
+            a.setAttribute("download", filename)
+            a.click();
         }
 
         function serialize(data) {
             let obj = {};
             for (let [key, value] of data) {
-                if (obj[key] !== undefined) {
-                    if (!Array.isArray(obj[key])) {
-                        obj[key] = [obj[key]];
+                if (value.length !== 0) {
+                    if (obj[key] !== undefined) {
+                        if (!Array.isArray(obj[key])) {
+                            obj[key] = [obj[key]];
+                        }
+                        obj[key].push(value);
+                    } else {
+                        obj[key] = value;
                     }
-                    obj[key].push(value);
-                } else {
-                    obj[key] = value;
-                }
+                }    
             }
             return obj;
         }

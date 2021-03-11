@@ -63,6 +63,9 @@
         }
 
         function sendFile(event) {
+            let file = event.target.result.replace(/>\s*/g, '>');
+            file = file.replace(/\s*</g, '<');
+
             let optionsObj = {
                 fileSystem: {
                     storageType: Window.TEMPORARY, 
@@ -78,7 +81,7 @@
                 complete: function(byStorageTypeStoredKeysObj, byStorageTypeErrorObj){
                     fetch("/validate", {
                         method: "POST",
-                        body: event.target.result
+                        body: file
                     }).then(response => {
                         if(response.ok) window.location.href = "/profile";
                         else {

@@ -203,43 +203,41 @@ void setPlayerAttribute(XMLElement* player, const char* attr, string value) {
     player->FirstChildElement(attr)->SetText(value.c_str());
 }
 
-void setExperiencePoints(XMLElement* player, const char* skill, int level) {
+void setExperiencePoints(XMLElement* player, const char* skill, string level) {
     XMLElement *expPoints = player->FirstChildElement("experiencePoints");
     XMLElement* child = expPoints->FirstChildElement("int");
     const char* exp;
 
-    switch(level) {
-        case 1: exp = "100"; break;
-        case 2: exp = "380"; break;
-        case 3: exp = "770"; break;
-        case 4: exp = "1300"; break;
-        case 5: exp = "2150"; break;
-        case 6: exp = "3300"; break;
-        case 7: exp = "4800"; break;
-        case 8: exp = "6900"; break;
-        case 9: exp = "10000"; break;
-        case 10: exp = "15000"; break;
-    }
+    if (strcmp(level.c_str(), "1") == 0) exp = "100";
+    if (strcmp(level.c_str(), "2") == 0) exp = "380";
+    if (strcmp(level.c_str(), "3") == 0) exp = "770";
+    if (strcmp(level.c_str(), "4") == 0) exp = "1300";
+    if (strcmp(level.c_str(), "5") == 0) exp = "2150";
+    if (strcmp(level.c_str(), "6") == 0) exp = "3300";
+    if (strcmp(level.c_str(), "7") == 0) exp = "4800";
+    if (strcmp(level.c_str(), "8") == 0) exp = "6900";
+    if (strcmp(level.c_str(), "9") == 0) exp = "10000";
+    if (strcmp(level.c_str(), "1") == 0) exp = "15000";
 
     for (int i = 0; i < 5; i++) {
         if (strcmp(skill, "farming") == 0 && i == 0) {
-            setPlayerAttribute(player, "farmingLevel", to_string(level));
+            setPlayerAttribute(player, "farmingLevel", level);
             child->SetText(exp);
             break;
         } else if (strcmp(skill, "fishing") == 0 && i == 1) {
-            setPlayerAttribute(player, "fishingLevel", to_string(level));
+            setPlayerAttribute(player, "fishingLevel", level);
             child->SetText(exp);
             break;
         } else if (strcmp(skill, "foraging") == 0 && i == 2) {
-            setPlayerAttribute(player, "foragingLevel", to_string(level));
+            setPlayerAttribute(player, "foragingLevel", level);
             child->SetText(exp);
             break;
         } else if (strcmp(skill, "mining") == 0 && i == 3) {
-            setPlayerAttribute(player, "miningLevel", to_string(level));
+            setPlayerAttribute(player, "miningLevel", level);
             child->SetText(exp);
             break;
         } else if (strcmp(skill, "combat") == 0 && i == 4) {
-            setPlayerAttribute(player, "combatLevel", to_string(level));
+            setPlayerAttribute(player, "combatLevel", level);
             child->SetText(exp);
             break;
         }
@@ -269,11 +267,11 @@ string editFile(string file, crow::json::rvalue data) {
     if(data.has("health")) setPlayerAttribute(player, "maxHealth", data["health"].s());
     if(data.has("stamina")) setPlayerAttribute(player, "maxStamina", data["stamina"].s());
 
-    if(data.has("farming")) setExperiencePoints(player, "farming", stoi(data["farming"].s()));
-    if(data.has("mining")) setExperiencePoints(player, "mining", stoi(data["mining"].s()));
-    if(data.has("combat")) setExperiencePoints(player, "combat", stoi(data["combat"].s()));
-    if(data.has("foraging")) setExperiencePoints(player, "foraging", stoi(data["foraging"].s()));
-    if(data.has("fishing")) setExperiencePoints(player, "fishing", stoi(data["fishing"].s()));
+    if(data.has("farming")) setExperiencePoints(player, "farming", data["farming"].s());
+    if(data.has("mining")) setExperiencePoints(player, "mining", data["mining"].s());
+    if(data.has("combat")) setExperiencePoints(player, "combat", data["combat"].s());
+    if(data.has("foraging")) setExperiencePoints(player, "foraging", data["foraging"].s());
+    if(data.has("fishing")) setExperiencePoints(player, "fishing", data["fishing"].s());
 
     if (data.has("sex")) {
         string sex = data["sex"].s();
