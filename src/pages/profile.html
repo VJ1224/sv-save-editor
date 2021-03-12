@@ -206,7 +206,8 @@
         
         let file;
         let profile;
-        let modal;
+        let modal = new bootstrap.Modal(document.getElementById("progress"));
+        modal.show();;
 
         bakedGoods.get({
             data: ["file"],
@@ -219,8 +220,6 @@
                     method: "POST",
                     body: totalProcessedItemCount.file
                 }).then(async response => {
-                    modal = new bootstrap.Modal(document.getElementById("progress"));
-                    modal.show();
                     profile = await response.json();
                     if(document.readyState === 'complete') {
                         setProfile(profile);
