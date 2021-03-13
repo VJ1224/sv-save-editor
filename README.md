@@ -8,15 +8,13 @@ Upload the XML save file (not SaveGameInfo, the full file) and edit the attribut
 
 ## Requirements
 
-* C++ compiler
+* Docker
 
 ## Files
 
-* main.cpp: web backend, uses crowcpp
+* main.cpp: web service, uses crowcpp
 
-* sveditor.cpp: interact with the XML file, uses tinyxml2
-
-* tools.hpp: helper methods
+* sveditor.cpp: read/write the XML file, uses tinyxml2
 
 * pages: HTML pages
 
@@ -24,9 +22,9 @@ Upload the XML save file (not SaveGameInfo, the full file) and edit the attribut
 
 ## Run
 
-* Release: g++ main.cpp -lpthread -lboost_system -lz -o sveditor.out
-* Debug: g++ main.cpp -ggdb -lpthread -lboost_system -lz -D CROW_ENABLE_DEBUG -o sveditor.out
-
+* docker build --tag sveditor:latest .
+* docker run -td -p 18080:18080 sveditor
+* Navigate to port 18080 on localhost
 
 ## Credits:
 
