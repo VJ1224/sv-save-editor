@@ -26,6 +26,8 @@ Upload the XML save file (not SaveGameInfo, the full file) and edit the attribut
 * docker run -td -p 18080:18080 sveditor
 * Navigate to port 18080 on localhost
 
+[Live](http://142.93.214.88:18080/)
+
 ## Credits:
 
 * C++ microframework for running web services 
