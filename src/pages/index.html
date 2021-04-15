@@ -78,7 +78,7 @@
         function errorFile(event) {
             sessionStorage.removeItem("filename");
             alert("Invalid File");
-            window.location.reload;
+            location.reload();
         }
 
         function sendFile(event) {
@@ -106,7 +106,7 @@
                         else {
                             sessionStorage.removeItem("filename");
                             alert("Invalid File");
-                            window.location.reload;
+                            location.reload();
                         }
                     });
                 }
